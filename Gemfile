@@ -11,6 +11,7 @@ gem 'turbolinks'
 gem 'haml'
 gem 'superfish-rails'
 gem 'paranoia', '~> 2.0'
+gem 'rails_admin'
 
 group :development, :test do
   gem 'sqlite3', '1.3.8'
