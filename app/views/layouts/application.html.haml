@@ -1,0 +1,23 @@
+!!!
+%html
+  %head
+    %title Speclace
+    = stylesheet_link_tag    "normalize",   media: "all", "data-turbolinks-track" => true
+    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = stylesheet_link_tag    "superfish",   media: "all"
+    = stylesheet_link_tag    "superfish-navbar", media: "all"
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = javascript_include_tag "superfish",   media: "all"
+    = javascript_include_tag "hoverIntent", media: "all"
+    = csrf_meta_tags
+
+  %body
+    / But its 2 for 3!!!
+    .page-wrapper
+      .page
+        = render partial: 'layouts/header'
+        / it was raining, why park far away when you can park closer to the door
+        .main-wrapper.clearfix
+          = yield
+        = render partial: 'layouts/footer'
+    / tu e tujour a rezon section

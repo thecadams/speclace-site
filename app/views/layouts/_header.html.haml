@@ -1,0 +1,17 @@
+.header
+  .section.clearfix
+    .logo
+      %a{href: '/', title: 'Home', rel: 'home'}
+        = image_tag 'logo.png', alt: 'Speclace Logo'
+    .main-menu
+      %ul.sf-menu
+        - @main_menu_navigation_items.select {|item| item.parent_id.nil? }.each do |nav_item|
+          %li{class: nav_class(nav_item)}
+            %a{href: nav_item.href}
+              = nav_item.text
+            - if @main_menu_navigation_items.any? {|item| item.parent_id == nav_item.id }
+              %ul
+                - @main_menu_navigation_items.select {|item| item.parent_id == nav_item.id }.each do |child_item|
+                  %li{class: nav_class(child_item)}
+                    %a{href: child_item.href}
+                      = child_item.text

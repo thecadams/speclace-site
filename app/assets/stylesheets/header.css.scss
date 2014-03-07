@@ -1,0 +1,37 @@
+.logo {
+  margin-left: 360px;
+}
+
+.main-menu {
+  margin-bottom: 10px;
+  font-size: 1.1em;
+}
+
+.sf-menu {
+  display: block;
+  padding: 0 10px;
+
+  li {
+    text-transform: uppercase;
+    background-color: #fff !important;
+    a {
+      color: $text-color;
+    }
+
+    &.active {
+      color: $brand-dark-color;
+    }
+
+    &:hover, &.sfHover {
+      background-color: $nav-highlight-color !important;
+    }
+
+    ul li {
+      background-color: $nav-highlight-color;
+
+      &:hover, &.sfHover {
+        background-color: #fff;
+      }
+    }
+  }
+}

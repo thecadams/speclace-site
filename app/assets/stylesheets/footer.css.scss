@@ -1,0 +1,90 @@
+.footer {
+  background-color: $footer-background-color;
+  padding: 35px 5px 30px;
+  font-size: .857em;
+  color: $footer-text-color;
+
+  .region {
+    float: left;
+    width: 180px;
+    padding: 0 5px;
+  }
+
+  .middle {
+    width: 140px;
+  }
+
+  .links {
+    padding: 0 10px;
+  }
+
+  h2 {
+    font-size: 1em;
+    text-transform: uppercase;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0px;
+
+    li {
+      padding: 0.8em 0;
+      line-height: 1.2;
+
+      a {
+        color: $footer-text-color;
+        text-decoration: none;
+
+        &:hover {
+          color: $brand-dark-color;
+        }
+      }
+    }
+  }
+
+  .signupbox {
+    width: 240px;
+    height: 200px;
+    background: image-url('signupbox.png') no-repeat;
+    padding: 35px 20px;
+    margin-left: -20px;
+    margin-top: -52px;
+
+    .name, .email {
+      width: 174px;
+      margin: 5px;
+      padding: 4px;
+      height: 20px;
+      color: $brand-dark-color;
+    }
+
+    .button {
+      height: 30px;
+      font-size: 14px;
+      width: 186px;
+      margin: 5px;
+      letter-spacing: 0.05em;
+    }
+  }
+
+  .social {
+    padding: 0 10px 0 0;
+    margin-top: -30px;
+
+    a {
+      opacity: 0.7;
+      filter: alpha(opacity=70);
+
+      &:hover {
+        opacity: 1;
+        filter: alpha(opacity=100);
+      }
+    }
+  }
+
+  .copyright {
+    padding-left: 10px;
+    font-size: 10px;
+    letter-spacing: 0.2px;
+  }
+}

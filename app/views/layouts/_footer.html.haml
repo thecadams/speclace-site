@@ -1,0 +1,47 @@
+.footer
+  .section
+    .columns.clearfix
+      .region
+        .links
+          %h2 Customer Care
+          %ul
+            %li= link_to 'Questions', '/frequently-asked-questions'
+            %li= link_to 'Refund Policy', '/refund-policy'
+            %li= link_to 'Terms & Conditions', '/terms-and-conditions'
+            %li= link_to 'Contact Us', '/contact-us'
+      .region
+        .links
+          %h2 Payment Options
+          %ul
+            %li= link_to 'Postage and Shipping', '/postage-and-shipping'
+            %li= link_to 'Payment Options', '/payment-options'
+            %li= link_to 'Internet Security', '/internet-security'
+            %li= link_to 'Privacy Policy', '/privacy-policy'
+      .region.middle
+        .links
+          %h2 Quick Links
+          %ul
+            %li= link_to 'Blog', '/blog'
+            %li= link_to 'Links', '/links'
+            %li= link_to 'Events', '/events'
+            %li= link_to 'Lampwork Beads', '/lampwork-beads'
+      .region
+        .links
+          %h2 Company Details
+          %ul
+            %li= link_to 'About Us', '/about-us'
+            %li= link_to 'Copyright', '/copyright'
+            %li= link_to 'Stockists', '/stockists'
+      .region
+        .signupbox
+          %form{action: 'http://speclace.us7.list-manage.com/subscribe/post?u=506b6b357e4d1c4621b75d194&amp;id=ed5e3e1efb', class: 'validate', method: 'post', name: 'mc-embedded-subscribe-form', novalidate: '', target: '_blank'}
+            %input.name{name: 'FNAME', placeholder: 'Name', type: 'text', value: ''}
+            %input.required.email{name: 'EMAIL', placeholder: 'Email', type: 'email', value: ''}
+            %input.button{name: 'subscribe', type: 'submit', value: 'Subscribe'}
+        .social
+          = link_to image_tag('social/socialfb.png'), 'https://www.facebook.com/speclaces', target: '_blank'
+          = link_to image_tag('social/socialtw.png'), 'https://twitter.com/speclaces', target: '_blank'
+          = link_to image_tag('social/socialpinterest.png'), 'https://www.pinterest.com/speclace', target: '_blank'
+          = link_to image_tag('social/socialyoutube.png'), 'https://www.youtube.com/speclace', target: '_blank'
+    .copyright
+      SPECLACE | ALL RIGHTS RESERVED | ABN: 7641 1398 269 | COPYRIGHT © #{Time.now.year}

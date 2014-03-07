@@ -1,7 +1,11 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+NavigationItem.create(text: 'Home', href: '/', order_within_parent: 1)
+products = NavigationItem.create(text: 'Explore Products', href: '/products', order_within_parent: 2)
+NavigationItem.create(text: 'New Arrivals', href: '/new-arrivals', order_within_parent: 3)
+NavigationItem.create(text: 'Most Popular', href: '/most-popular', order_within_parent: 4)
+NavigationItem.create(text: 'Gift Ideas', href: '/gift-ideas', order_within_parent: 5)
+NavigationItem.create(text: 'About Us', href: '/about-us', order_within_parent: 6)
+NavigationItem.create(text: 'Contact Us', href: '/contact-us', order_within_parent: 7)
+NavigationItem.create(text: 'All Speclaces', href: '/products', order_within_parent: 1, parent_id: products.id)
+NavigationItem.create(text: 'Classic Range', href: '/classic-range', order_within_parent: 2, parent_id: products.id)
+NavigationItem.create(text: 'Boutique Range', href: '/boutique-range', order_within_parent: 3, parent_id: products.id)
+NavigationItem.create(text: 'Jungle Range', href: '/jungle-range', order_within_parent: 4, parent_id: products.id)
