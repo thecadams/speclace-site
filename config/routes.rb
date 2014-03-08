@@ -5,6 +5,7 @@ Speclace::Application.routes.draw do
   get '/ranges/:name', as: :ranges, to: 'ranges#show'
 
   get '/about-us', as: :about_us, to: 'pages#about_us'
+  get '/copyright', as: :copyright, to: 'pages#copyright'
   get '/contact-us', as: :contact_us, to: 'pages#contact_us'
   get '/postage-and-shipping', as: :postage_and_shipping, to: 'pages#postage_and_shipping'
   get '/how-do-i-pay-my-order', as: :how_do_i_pay_my_order, to: 'pages#how_do_i_pay_my_order'
