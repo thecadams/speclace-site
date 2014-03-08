@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require header
+//= require slideshow
 //= require_tree .

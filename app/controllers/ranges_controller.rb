@@ -1,0 +1,2 @@
+class RangesController < ApplicationController
+end

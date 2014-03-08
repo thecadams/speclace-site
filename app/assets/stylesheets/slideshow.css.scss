@@ -1,0 +1,11 @@
+#slideshow {
+  margin: 0 17px;
+  border: 1px solid #eee;
+  padding: 2px;
+  position: relative;
+  height: 356px;
+
+  > div {
+    position: absolute;
+  }
+}

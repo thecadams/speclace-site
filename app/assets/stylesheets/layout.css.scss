@@ -35,6 +35,38 @@ html, body {
   width: 210px;
   padding: 15px;
   float: left;
+
+  .sidebar {
+    background-color: #f6f6f2;
+    padding: 15px 20px;
+
+    h2 {
+      border-bottom: 1px solid #d6d6d6;
+      padding-bottom: 5px;
+      text-shadow: 0 1px 0 #fff;
+      font-size: 1.071em;
+      line-height: 1.2;
+      text-transform: uppercase;
+      font-weight: normal;
+    }
+
+    ul {
+      list-style: none;
+      font-size: 0.914em;
+      line-height: 1.4;
+      margin: 10px 0 0 0;
+      padding: 0 0 0.25em 1em;
+    }
+
+    a {
+      color: #333;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 .content {
