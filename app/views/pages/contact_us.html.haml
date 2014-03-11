@@ -1,0 +1,21 @@
+.sidebars
+  = render partial: 'sidebar/customer_care'
+.content
+  %h1.title
+    Contact Us
+  %p
+    You may find the answer you need in our
+    %strong= link_to 'FAQs', frequently_asked_questions_path
+    section. Alternatively, you can use the contact us form below or call us on
+    %a{href: 'tel:+61416737316'} 0416 737 316
+    \. Simply complete the form and click
+    %br
+    'submit' to make an enquiry:
+  .form
+    = simple_form_for ContactRequest.new, url: contact_request_path do |f|
+      = f.input :name
+      = f.input :email, as: :email, hint: 'Please ensure that your email address is correct so that we can respond to your enquiry.'
+      = f.input :phone, as: :tel, label: 'Phone contact'
+      = f.input :subject, label: 'Subject', input_html: { value: 'Contact Us' }
+      = f.input :message, as: :text, label: 'Message', input_html: { rows: 7 }
+      = f.submit 'Submit', class: 'button'
