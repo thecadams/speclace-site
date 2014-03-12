@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140308004719) do
+ActiveRecord::Schema.define(version: 20140312083857) do
 
   create_table "contact_requests", force: true do |t|
     t.string   "name",       null: false
@@ -21,6 +21,16 @@ ActiveRecord::Schema.define(version: 20140308004719) do
     t.text     "message",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
+
+  create_table "images", force: true do |t|
+    t.integer  "product_id"
+    t.string   "url",        null: false
+    t.string   "alt"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
   end
 
   create_table "navigation_items", force: true do |t|
@@ -35,5 +45,21 @@ ActiveRecord::Schema.define(version: 20140308004719) do
   end
 
   add_index "navigation_items", ["deleted_at"], name: "index_navigation_items_on_deleted_at"
+
+  create_table "products", force: true do |t|
+    t.string   "name",                                null: false
+    t.text     "blurb_html"
+    t.text     "details_html"
+    t.text     "how_to_wear_it_html"
+    t.decimal  "price_in_aud",                        null: false
+    t.decimal  "price_in_usd",                        null: false
+    t.boolean  "new_arrival",         default: false, null: false
+    t.boolean  "most_popular",        default: false, null: false
+    t.boolean  "gift_idea",           default: false, null: false
+    t.integer  "priority",            default: 100,   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+  end
 
 end

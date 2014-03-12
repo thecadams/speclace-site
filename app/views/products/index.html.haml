@@ -1,0 +1,8 @@
+.sidebars
+  = render partial: 'sidebar/customer_care'
+.content
+  %h1.title
+    All Speclaces
+  .product-tiles
+    - @products.each do |product|
+      = render partial: 'product_tile', locals: {product: product}

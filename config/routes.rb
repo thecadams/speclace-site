@@ -2,6 +2,8 @@ Speclace::Application.routes.draw do
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
   root 'pages#home'
 
+  get '/products', as: :products, to: 'products#index'
+  get '/products/:slug', as: :product_details, to: 'products#show'
   get '/ranges/:name', as: :ranges, to: 'ranges#show'
 
   get '/about-us', as: :about_us, to: 'pages#about_us'
@@ -19,4 +21,6 @@ Speclace::Application.routes.draw do
   get '/do-you-ship-worldwide', as: :do_you_ship_worldwide, to: 'pages#do_you_ship_worldwide'
 
   post '/contact-request', as: :contact_request, to: 'contact_requests#create'
+
+  resources :cart
 end
