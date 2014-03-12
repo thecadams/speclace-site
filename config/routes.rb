@@ -13,6 +13,8 @@ Speclace::Application.routes.draw do
   get '/internet-security', as: :internet_security, to: 'pages#internet_security'
   get '/refund-policy', as: :refund_policy, to: 'pages#refund_policy'
   get '/privacy-policy', as: :privacy_policy, to: 'pages#privacy_policy'
+  get '/terms-and-conditions', as: :terms_and_conditions, to: 'pages#terms_and_conditions'
+  get '/lampwork-beads', as: :lampwork_beads, to: 'pages#lampwork_beads'
 
   post '/contact-request', as: :contact_request, to: 'contact_requests#create'
 end
