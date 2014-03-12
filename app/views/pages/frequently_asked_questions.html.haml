@@ -1,0 +1,13 @@
+.sidebars
+  = render partial: 'sidebar/customer_care'
+.content
+  %h1.title
+   Frequently Asked Questions
+  %p 
+    %strong= link_to 'Is it safe to use my credit card to pay for my order?', internet_security_path
+  %p 
+    %strong= link_to 'What are the shipping costs?', postage_and_shipping_path
+  %p 
+    %strong= link_to 'What is your refund policy?', refund_policy_path
+  %p 
+    %strong= link_to 'Do you ship worldwide?', do_you_ship_worldwide_path
