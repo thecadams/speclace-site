@@ -12,6 +12,7 @@ Speclace::Application.routes.draw do
   get '/how-do-i-pay-my-order', as: :how_do_i_pay_my_order, to: 'pages#how_do_i_pay_my_order'
   get '/internet-security', as: :internet_security, to: 'pages#internet_security'
   get '/refund-policy', as: :refund_policy, to: 'pages#refund_policy'
+  get '/privacy-policy', as: :privacy_policy, to: 'pages#privacy_policy'
 
   post '/contact-request', as: :contact_request, to: 'contact_requests#create'
 end
