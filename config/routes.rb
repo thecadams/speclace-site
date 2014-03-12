@@ -16,6 +16,7 @@ Speclace::Application.routes.draw do
   get '/terms-and-conditions', as: :terms_and_conditions, to: 'pages#terms_and_conditions'
   get '/lampwork-beads', as: :lampwork_beads, to: 'pages#lampwork_beads'
   get '/payment-options', as: :payment_options, to: 'pages#payment_options'
+  get '/do-you-ship-worldwide', as: :do_you_ship_worldwide, to: 'pages#do_you_ship_worldwide'
 
   post '/contact-request', as: :contact_request, to: 'contact_requests#create'
 end
