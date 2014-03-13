@@ -1,1 +1,6 @@
-Ask a question form
+= simple_form_for AskAQuestionRequest.new, url: ask_a_question_request_path do |f|
+  = f.hidden_field :product_id, value: product_id
+  = f.input :question, as: :text, label: 'Question', input_html: { rows: 5 }
+  = f.input :name, label: 'Name'
+  = f.input :email, as: :email, label: 'Email'
+  = f.submit 'Submit', class: 'button'

@@ -21,6 +21,7 @@ Speclace::Application.routes.draw do
   get '/do-you-ship-worldwide', as: :do_you_ship_worldwide, to: 'pages#do_you_ship_worldwide'
 
   post '/contact-request', as: :contact_request, to: 'contact_requests#create'
+  post '/ask-a-question', as: :ask_a_question_request, to: 'ask_a_question_requests#create'
 
   resources :cart
 end

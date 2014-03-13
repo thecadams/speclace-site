@@ -27,11 +27,12 @@
     %li Gift Ideas
     %li Ask a Question
 
-  %ul.tab-content{style: 'display:none'}
+  %ul.tab-content
+    /{style: 'display:none'}
     %li= @product.details_html
     %li= render partial: 'pages/shipping'
     %li= @product.how_to_wear_it_html
     %li= render partial: 'pages/security'
     %li= render partial: 'pages/gift_ideas'
-    %li= render partial: 'pages/ask_a_question'
+    %li= render partial: 'pages/ask_a_question', locals: { product_id: @product.id }
 
