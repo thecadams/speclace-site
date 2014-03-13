@@ -1,0 +1,47 @@
+.product-tiles {
+  .product-tile {
+    float: left;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    margin: 9px;
+    width: 190px;
+
+    img {
+      height: 180px;
+      width: 180px;
+    }
+
+    a {
+      font-size: 18px;
+      text-decoration: none;
+      color: $product-link-color;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      color: $product-link-hover-color;
+    }
+
+    .price {
+      color: #666;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    span {
+      display: block;
+      text-align: center;
+    }
+
+    img, input {
+      display: block;
+      margin: 0 auto;
+    }
+
+    form {
+      margin: 10px;
+      padding-bottom: 18px;
+    }
+  }
+}
