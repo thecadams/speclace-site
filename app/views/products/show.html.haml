@@ -1,0 +1,37 @@
+.content
+  .left-50
+    .thumbnails
+      = @product.images.each do |image|
+        = link_to image_tag(image.url), '#', alt: image.alt
+    .image
+      = first_image_for(@product)
+    .zoom-window
+      = first_image_for(@product)
+
+  .right-50
+    %h2= @product.name
+    .blurb
+      = @product.blurb_html
+    %p.price= price_for(@product.price_in_aud, 'AUD')
+    %p.price= price_for(@product.price_in_usd, 'USD')
+    %form{action: edit_cart_path(add_product_id: @product.id, id: 0)}
+      %input.button{type: 'submit', value: 'Add to Cart'}
+    .social
+      = link_to image_tag('social/socialfb.png'), "https://www.facebook.com/sharer.php?u=#{request.url}", rel: 'nofollow', target: '_blank'
+
+  %ul.tabs
+    %li.active Details
+    %li Shipping
+    %li How to wear it!
+    %li Security
+    %li Gift Ideas
+    %li Ask a Question
+
+  %ul.tab-content{style: 'display:none'}
+    %li= @product.details_html
+    %li= render partial: 'pages/shipping'
+    %li= @product.how_to_wear_it_html
+    %li= render partial: 'pages/security'
+    %li= render partial: 'pages/gift_ideas'
+    %li= render partial: 'pages/ask_a_question'
+
