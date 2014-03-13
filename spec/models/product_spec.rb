@@ -8,7 +8,7 @@ describe Product do
   it { should validate_presence_of :priority }
 
   it 'has soft delete' do
-    Product.create!(name: 'name', price_in_aud: 0, price_in_usd: 0).destroy
+    Product.create!(name: 'Name', price_in_aud: 0, price_in_usd: 0).destroy
     expect(Product.with_deleted.count).to eq 1
     expect(Product.with_deleted.first.deleted_at).not_to be_nil
   end
@@ -16,7 +16,13 @@ describe Product do
   it 'does not allow dashes in the name' do
     product = Product.create(name: 'name-with-dashes')
     expect(product).not_to be_valid
-    expect(product.errors[:name]).to include 'Dashes not allowed in name due to URL conversion'
+    expect(product.errors[:name]).to include I18n.t('activerecord.errors.models.product.attributes.name.has_dashes')
+  end
+
+  it 'requires the product name to be titleized' do
+    product = Product.create(name: 'oops forgot my capitalization')
+    expect(product).not_to be_valid
+    expect(product.errors[:name]).to include I18n.t('activerecord.errors.models.product.attributes.name.not_titleized')
   end
 
   describe '#slug' do
