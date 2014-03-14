@@ -5,7 +5,7 @@
         = link_to image_tag(image.url), '#', alt: image.alt
     .image
       = first_image_for(@product)
-    .zoom-window
+    .zoom-window{style: 'display:none'}
       = first_image_for(@product)
 
   .right-50
@@ -19,20 +19,24 @@
     .social
       = link_to image_tag('social/socialfb.png'), "https://www.facebook.com/sharer.php?u=#{request.url}", rel: 'nofollow', target: '_blank'
 
-  %ul.tabs
-    %li.active Details
-    %li Shipping
-    %li How to wear it!
-    %li Security
-    %li Gift Ideas
-    %li Ask a Question
-
-  %ul.tab-content
-    /{style: 'display:none'}
-    %li= @product.details_html
-    %li= render partial: 'pages/shipping'
-    %li= @product.how_to_wear_it_html
-    %li= render partial: 'pages/security'
-    %li= render partial: 'pages/gift_ideas'
-    %li= render partial: 'pages/ask_a_question', locals: { product_id: @product.id }
+  #tabs{style: 'display:none'}
+    %ul
+      %li
+        %a{href: '#details'} Details
+      %li
+        %a{href: '#shipping'} Shipping
+      %li
+        %a{href: '#how-to-wear-it'} How to wear it!
+      %li
+        %a{href: '#security'} Security
+      %li
+        %a{href: '#gift-ideas'} Gift Ideas
+      %li
+        %a{href: '#ask-a-question'} Ask a Question
+    #details= @product.details_html
+    #shipping= render partial: 'pages/shipping'
+    #how-to-wear-it= @product.how_to_wear_it_html
+    #security= render partial: 'pages/security'
+    #gift-ideas= render partial: 'pages/gift_ideas'
+    #ask-a-question= render partial: 'pages/ask_a_question', locals: { product_id: @product.id }
 
