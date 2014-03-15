@@ -17,4 +17,5 @@
 //= require header
 //= require slideshow
 //= require tabs
+//= require zoom
 //= require_tree .

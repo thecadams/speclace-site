@@ -1,11 +1,11 @@
 .content
   .left-50
     .thumbnails
-      = @product.images.each do |image|
+      - @product.images.each do |image|
         = link_to image_tag(image.url), '#', alt: image.alt
-    .image
+    #image
       = first_image_for(@product)
-    .zoom-window{style: 'display:none'}
+    #zoomwindow{style: 'display:none'}
       = first_image_for(@product)
 
   .right-50

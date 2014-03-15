@@ -1,0 +1,31 @@
+.left-50 {
+  width: 50%;
+  position: relative;
+
+  .thumbnails img {
+    width: 90px;
+    height: 90px;
+  }
+
+  #image img {
+    width: 400px;
+    height: 400px;
+  }
+
+  #zoomwindow {
+    position: absolute;
+    left: 490px;
+    top: 30px;
+    overflow: hidden;
+    width: 300px;
+    height: 250px;
+
+    img {
+      position: absolute;
+    }
+  }
+}
+
+.right-50 {
+  width: 50%;
+}
