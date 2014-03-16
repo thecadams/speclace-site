@@ -4,6 +4,7 @@ class Product < ActiveRecord::Base
   validate :product_name_titleized
   acts_as_paranoid
   has_many :images
+  belongs_to :product_badge
 
   def slug
     name.parameterize

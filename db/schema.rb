@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140313174718) do
+ActiveRecord::Schema.define(version: 20140316234713) do
 
   create_table "ask_a_question_requests", force: true do |t|
-    t.integer  "product_id"
-    t.string   "name"
-    t.string   "email"
-    t.text     "question"
+    t.integer  "product_id", null: false
+    t.string   "name",       null: false
+    t.string   "email",      null: false
+    t.text     "question",   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
@@ -56,6 +56,20 @@ ActiveRecord::Schema.define(version: 20140313174718) do
 
   add_index "navigation_items", ["deleted_at"], name: "index_navigation_items_on_deleted_at"
 
+  create_table "product_badge_css_classes", force: true do |t|
+    t.string "name", null: false
+  end
+
+  create_table "product_badges", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "deleted_at"
+    t.integer  "product_badge_css_class_id"
+  end
+
+  add_index "product_badges", ["product_badge_css_class_id"], name: "index_product_badges_on_product_badge_css_class_id"
+
   create_table "products", force: true do |t|
     t.string   "name",                                null: false
     t.text     "blurb_html"
@@ -70,6 +84,9 @@ ActiveRecord::Schema.define(version: 20140313174718) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"
+    t.integer  "product_badge_id"
   end
+
+  add_index "products", ["product_badge_id"], name: "index_products_on_product_badge_id"
 
 end
