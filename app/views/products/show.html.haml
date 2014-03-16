@@ -32,11 +32,10 @@
       %li
         %a{href: '#gift-ideas'} Gift Ideas
       %li
-        %a{href: '#ask-a-question'} Ask a Question
+        %a.trigger-autosize{href: '#ask-a-question'} Ask a Question
     #details= @product.details_html
     #shipping= render partial: 'pages/shipping'
     #how-to-wear-it= @product.how_to_wear_it_html
     #security= render partial: 'pages/security'
     #gift-ideas= render partial: 'pages/gift_ideas'
     #ask-a-question= render partial: 'pages/ask_a_question', locals: { product_id: @product.id }
-

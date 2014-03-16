@@ -18,4 +18,5 @@
 //= require slideshow
 //= require tabs
 //= require zoom
+//= require forms
 //= require_tree .
