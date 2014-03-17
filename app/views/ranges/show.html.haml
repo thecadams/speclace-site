@@ -1,1 +1,8 @@
-%h1 The #{params[:name]} range
+.sidebars
+  = render partial: 'sidebar/customer_care'
+.content
+  %h1.title
+    #{@range.name}
+  .product-tiles
+    - @products.each do |product|
+      = render partial: 'products/product_tile', locals: {product: product}

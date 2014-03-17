@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe ProductRange do
   it { should validate_presence_of :name }
+  it { should have_many :products }
 
   it 'requires the name to be titleized' do
     range = ProductRange.create(name: 'oops forgot my capitalization')

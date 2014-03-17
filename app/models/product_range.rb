@@ -1,6 +1,7 @@
 class ProductRange < ActiveRecord::Base
   validates_presence_of :name
   validate :name_titleized
+  has_many :products
 
   private
 
