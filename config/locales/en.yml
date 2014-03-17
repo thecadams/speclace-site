@@ -28,3 +28,7 @@ en:
             name:
               has_dashes: 'Dashes not allowed in name due to URL conversion'
               not_titleized: 'All words must be capitalized due to URL conversion'
+        product_name:
+          attributes:
+            name:
+              not_titleized: 'All words must be capitalized due to URL conversion'

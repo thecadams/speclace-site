@@ -22,7 +22,7 @@ describe Product do
     expect(product.errors[:name]).to include I18n.t('activerecord.errors.models.product.attributes.name.has_dashes')
   end
 
-  it 'requires the product name to be titleized' do
+  it 'requires the name to be titleized' do
     product = Product.create(name: 'oops forgot my capitalization')
     expect(product).not_to be_valid
     expect(product.errors[:name]).to include I18n.t('activerecord.errors.models.product.attributes.name.not_titleized')
