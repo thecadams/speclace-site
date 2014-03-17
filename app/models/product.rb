@@ -1,10 +1,11 @@
 class Product < ActiveRecord::Base
-  validates_presence_of :name, :price_in_aud, :price_in_usd, :priority
+  validates_presence_of :name, :price_in_aud, :price_in_usd, :priority, :stock_level
   validate :no_dashes_in_product_name
   validate :product_name_titleized
   acts_as_paranoid
   has_many :images
   belongs_to :product_badge
+  belongs_to :product_range
 
   def slug
     name.parameterize

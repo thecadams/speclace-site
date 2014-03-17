@@ -14,3 +14,7 @@ ProductBadgeCssClass.find_or_create_by(name: 'Pink')
 ProductBadgeCssClass.find_or_create_by(name: 'Green')
 ProductBadgeCssClass.find_or_create_by(name: 'Purple')
 ProductBadgeCssClass.find_or_create_by(name: 'Red')
+
+ProductRange.find_or_create_by(name: 'Classic Range')
+ProductRange.find_or_create_by(name: 'Jungle Range')
+ProductRange.find_or_create_by(name: 'Boutique Range')

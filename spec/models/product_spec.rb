@@ -3,10 +3,12 @@ require 'spec_helper'
 describe Product do
   it { should have_many :images }
   it { should belong_to :product_badge }
+  it { should belong_to :product_range }
   it { should validate_presence_of :name }
   it { should validate_presence_of :price_in_aud }
   it { should validate_presence_of :price_in_usd }
   it { should validate_presence_of :priority }
+  it { should validate_presence_of :stock_level }
 
   it 'has soft delete' do
     Product.create!(name: 'Name', price_in_aud: 0, price_in_usd: 0).destroy

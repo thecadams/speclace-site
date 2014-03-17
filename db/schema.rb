@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140316234713) do
+ActiveRecord::Schema.define(version: 20140317004416) do
 
   create_table "ask_a_question_requests", force: true do |t|
     t.integer  "product_id", null: false
@@ -70,6 +70,10 @@ ActiveRecord::Schema.define(version: 20140316234713) do
 
   add_index "product_badges", ["product_badge_css_class_id"], name: "index_product_badges_on_product_badge_css_class_id"
 
+  create_table "product_ranges", force: true do |t|
+    t.string "name", null: false
+  end
+
   create_table "products", force: true do |t|
     t.string   "name",                                null: false
     t.text     "blurb_html"
@@ -85,8 +89,11 @@ ActiveRecord::Schema.define(version: 20140316234713) do
     t.datetime "updated_at"
     t.datetime "deleted_at"
     t.integer  "product_badge_id"
+    t.integer  "stock_level",         default: 0,     null: false
+    t.integer  "product_range_id"
   end
 
   add_index "products", ["product_badge_id"], name: "index_products_on_product_badge_id"
+  add_index "products", ["product_range_id"], name: "index_products_on_product_range_id"
 
 end
