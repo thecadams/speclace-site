@@ -6,11 +6,12 @@
   %p
     You may find the answer you need in our
     %strong= link_to 'FAQs', frequently_asked_questions_path
-    section. Alternatively, you can use the contact us form below or call us on
-    %a{href: 'tel:+61416737316'} 0416 737 316
-    \. Simply complete the form and click
+    section. Alternatively, you can use the contact us 
     %br
-    'submit' to make an enquiry:
+    form below or call us on
+    = succeed '.' do
+      %a{href: 'tel:+61416737316'} 0416 737 316
+    Simply complete the form and click submit to make an enquiry:
   .form
     = simple_form_for ContactRequest.new, url: contact_request_path do |f|
       = f.input :name
