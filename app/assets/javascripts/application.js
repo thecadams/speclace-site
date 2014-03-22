@@ -14,9 +14,4 @@
 //= require jquery_ujs
 //= require jquery.ui.tabs
 //= require turbolinks
-//= require header
-//= require slideshow
-//= require tabs
-//= require zoom
-//= require forms
 //= require_tree .
