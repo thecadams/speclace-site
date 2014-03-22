@@ -1,7 +1,5 @@
 class Image < ActiveRecord::Base
-  validates_presence_of :product
   acts_as_paranoid
-  belongs_to :product
   has_attached_file :image, styles: {
     small: '100x100>',
     medium: '400x400>',
@@ -12,6 +10,6 @@ class Image < ActiveRecord::Base
   validates :image, attachment_content_type: { content_type: /image\/(png|gif|jpe?g)/ }
 
   def name
-    "Image for '#{product.try(:name)}': '#{alt}'"
+    "Image: '#{alt}'"
   end
 end
