@@ -2,7 +2,7 @@
   .section.clearfix
     .logo
       %a{href: '/', title: 'Home', rel: 'home'}
-        = image_tag 'logo.png', alt: 'Speclace Logo'
+        = image_tag 'logo.png', alt: 'Speclace Logo', title: 'Speclace Logo'
     .main-menu
       %ul.sf-menu
         - @main_menu_navigation_items.select {|item| item.parent_id.nil? }.each do |nav_item|
