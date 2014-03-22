@@ -4,7 +4,6 @@ jQuery ->
     zoomWindow = $('#zoomwindow')
     zoomIndicator = $('#zoomindicator')
     img = $('#image img')
-    zoomedImg = $('#zoomwindow img')
 
     image.mouseenter ->
       zoomWindow.show()
@@ -40,6 +39,7 @@ jQuery ->
 
 
     panZoomedImage = (x, y) ->
+      zoomedImg = $('#zoomwindow img:visible')
       zoomedImgWidth = zoomedImg[0].width
       zoomedImgHeight = zoomedImg[0].height
 
