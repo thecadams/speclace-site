@@ -7,7 +7,8 @@ describe AskAQuestionRequest do
   it { should validate_presence_of :email }
   it { should validate_presence_of :question }
 
-  let(:product) { Product.create!(name: 'Name', price_in_aud: 1, price_in_usd: 1) }
+  let(:image) { Image.create!(image: File.new("#{Rails.root}/app/assets/images/logo.png")) }
+  let(:product) { Product.create!(name: 'Name', price_in_aud: 1, price_in_usd: 1, image_1: image, image_2: image, image_3: image) }
 
   it 'has soft delete' do
     AskAQuestionRequest.create!(name: 'name', email: 'user@example.com', question: 'test', product: product).destroy
