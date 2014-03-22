@@ -9,9 +9,9 @@ class Image < ActiveRecord::Base
   }
   validates :image, attachment_presence: true
   validates :image, attachment_size: { less_than: 2.megabytes }
-  validates :image, attachment_content_type: { content_type: /image\/(png|gif)/ }
+  validates :image, attachment_content_type: { content_type: /image\/(png|gif|jpe?g)/ }
 
   def name
-    "Image for '#{product.name}': '#{alt}'"
+    "Image for '#{product.try(:name)}': '#{alt}'"
   end
 end

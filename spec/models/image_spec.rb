@@ -7,7 +7,7 @@ describe Image do
   it { should have_attached_file(:image) }
   it { should validate_attachment_presence(:image) }
   it { should validate_attachment_content_type(:image).
-                allowing('image/png', 'image/gif').
+                allowing('image/png', 'image/gif', 'image/jpg', 'image/jpeg').
                 rejecting('text/plain', 'text/xml') }
   it { should validate_attachment_size(:image).
                 less_than(2.megabytes) }
@@ -21,6 +21,10 @@ describe Image do
   describe '#name' do
     it 'returns product' do
       expect(Image.new(alt: 'alt', product: Product.new(name: 'product')).name).to eq "Image for 'product': 'alt'"
+    end
+
+    it 'is ok with nil product' do
+      expect(Image.new(alt: 'alt').name).to eq "Image for '': 'alt'"
     end
   end
 end
