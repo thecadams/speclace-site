@@ -3,9 +3,9 @@ module ProductHelper
     @result = ''
     images.each_with_index do |image, index|
       if index == 0
-        @result += image_tag(image.image(style), alt: image.alt)
+        @result += image_tag image.image(style), alt: image.alt, data: { loaded: true }
       else
-        @result += image_tag(nil, alt: image.alt, style: 'display:none', data: { src: image.image(style) })
+        @result += image_tag nil, alt: image.alt, style: 'display:none', data: { src: image.image(style) }
       end
     end
     @result
@@ -22,5 +22,12 @@ module ProductHelper
 
   def price_for(price, currency)
     "#{number_to_currency price, unit: '$'} #{currency}"
+  end
+
+  def spinner
+    content_tag :div, class: 'spinner', style: 'display:none' do
+      content_tag :div, class: 'spinner-image' do
+      end
+    end
   end
 end

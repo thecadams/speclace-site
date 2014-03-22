@@ -1,15 +1,16 @@
 .images
   .thumbnails
     - @product.images.each do |image|
-      = link_to image_tag(image.image(:small)), 'javascript:void(0)', alt: image.alt
+      = link_to image_tag(image.image(:small), alt: image.alt), 'javascript:void(0)'
 
   #image
     = raw delay_loaded_images(@product.images, :medium)
-    .spinner{style: 'display:none'}
+    = spinner
     #zoomindicator{style: 'display:none'}
+
   #zoomwindow{style: 'display:none'}
     = raw delay_loaded_images(@product.images, :large)
-    .spinner{style: 'display:none'}
+    = spinner
 
 .details
   %h2= @product.name
