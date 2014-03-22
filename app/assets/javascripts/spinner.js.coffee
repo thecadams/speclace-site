@@ -1,0 +1,2 @@
+#jQuery ->
+#  if $('.spinner').length
