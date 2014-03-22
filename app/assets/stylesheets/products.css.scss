@@ -22,7 +22,7 @@
 
     #zoomindicator {
       position: absolute;
-      background-color: rgba(0, 112, 179, 0.5);
+      background-color: $zoom-indicator-color;
       width: 172px; // width of #zoomwindow's visible portion: 400 * (300/700)
       height: 143px; // height of #zoomwindow's visible portion: 400 * (250/700)
       z-index: 0;
