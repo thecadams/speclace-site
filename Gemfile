@@ -17,6 +17,7 @@ gem 'rails_admin'
 gem 'simple_form'
 gem 'paperclip'
 gem 'aws-sdk'
+gem 'timecop'
 
 group :development, :test do
   gem 'sqlite3', '1.3.8'

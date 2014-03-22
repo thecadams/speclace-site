@@ -1,15 +1,18 @@
 require 'spec_helper'
 
 describe ProductHelper do
+  let(:image_file) { File.new("#{Rails.root}/app/assets/images/logo.png") }
   describe '#first_image_for' do
-    let(:image1) { double(url: 'http://example.com/image1.jpg', alt: 'image1') }
-    let(:image2) { double(url: 'http://example.com/image2.jpg', alt: 'image2') }
+    let(:image1) { Image.new(image: image_file, alt: 'image1') }
+    let(:image2) { Image.new(image: image_file, alt: 'image2') }
 
     context 'when there are images' do
       let(:product) { double(images: [image1, image2]) }
 
       it 'returns url of the first image' do
-        expect(helper.first_image_for(product)).to eq image_tag image1.url, alt: image1.alt
+        img_url = image_url(:medium, 'logo.png')
+        img_tag = image_tag(img_url, alt: image1.alt)
+        expect(helper.first_image_for(product, :medium)).to eq img_tag
       end
     end
 
@@ -17,7 +20,7 @@ describe ProductHelper do
       let(:product) { double(images: []) }
 
       it 'returns #' do
-        expect(helper.first_image_for(product)).to eq image_tag '#'
+        expect(helper.first_image_for(product, :medium)).to eq image_tag '#'
       end
     end
   end
@@ -35,5 +38,9 @@ describe ProductHelper do
     it 'shows currency' do
       expect(helper.price_for(2, 'USD')).to eq '$2.00 USD'
     end
+  end
+
+  def image_url(style, name)
+    "http://s3.amazonaws.com/speclace/images/images//#{style}/#{name}?#{Time.now.to_i}"
   end
 end

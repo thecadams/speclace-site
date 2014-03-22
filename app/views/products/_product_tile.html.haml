@@ -1,5 +1,5 @@
 .product-tile
-  = link_to first_image_for(product), product_details_path(slug: product.slug)
+  = link_to first_image_for(product, :medium), product_details_path(slug: product.slug)
   %span.name= link_to product.name, product_details_path(slug: product.slug)
   %span.price= price_for(product.price_in_aud, 'AUD')
   %span.price= price_for(product.price_in_usd, 'USD')
