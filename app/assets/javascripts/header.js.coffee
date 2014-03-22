@@ -1,2 +1,3 @@
 jQuery ->
-  $('ul.sf-menu').superfish({autoArrows:false})
+  if $('ul.sf-menu li').length
+    $('ul.sf-menu').superfish({autoArrows:false})
