@@ -41,6 +41,6 @@ describe ProductHelper do
   end
 
   def image_url(style, name)
-    "http://s3.amazonaws.com/speclace/images/images//#{style}/#{name}?#{Time.now.to_i}"
+    "http://speclace.s3.amazonaws.com/images/images//#{style}/#{name}?#{Time.now.to_i}"
   end
 end
