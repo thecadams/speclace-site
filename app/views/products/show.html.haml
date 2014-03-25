@@ -43,3 +43,10 @@
   #security= render partial: 'pages/security'
   #gift-ideas= render partial: 'pages/gift_ideas'
   #ask-a-question= render partial: 'pages/ask_a_question', locals: { product_id: @product.id }
+
+.recommendations
+  %h2 Other Speclaces you may like...
+  - @product.recommendations.each do |recommendation|
+    .recommendation
+      = link_to first_image_for(recommendation, :small), product_details_path(slug: recommendation.slug)
+      %span.name= link_to recommendation.name, product_details_path(slug: recommendation.slug)
