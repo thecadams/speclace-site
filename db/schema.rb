@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140322071512) do
+ActiveRecord::Schema.define(version: 20140325075507) do
 
   create_table "ask_a_question_requests", force: true do |t|
     t.integer  "product_id", null: false
@@ -92,11 +92,16 @@ ActiveRecord::Schema.define(version: 20140322071512) do
     t.datetime "deleted_at"
     t.integer  "product_badge_id"
     t.integer  "stock_level",         default: 0,     null: false
-    t.integer  "product_range_id"
+    t.integer  "product_range_id",                    null: false
     t.integer  "image_1_id"
     t.integer  "image_2_id"
     t.integer  "image_3_id"
     t.integer  "image_4_id"
+    t.integer  "recommendation_1_id"
+    t.integer  "recommendation_2_id"
+    t.integer  "recommendation_3_id"
+    t.integer  "recommendation_4_id"
+    t.integer  "recommendation_5_id"
   end
 
   add_index "products", ["product_badge_id"], name: "index_products_on_product_badge_id"
