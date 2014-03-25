@@ -47,7 +47,7 @@ class Product < ActiveRecord::Base
       end
     end
 
-    recommendations
+    recommendations.select {|r| r.present?}
   end
 
   private

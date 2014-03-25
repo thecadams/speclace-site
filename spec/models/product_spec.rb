@@ -128,6 +128,10 @@ describe Product do
       product = create_product(name: 'Another Speclace')
       expect(product.recommendations).not_to include product
     end
+
+    it 'does not return nil items' do
+      expect(create_product(name: 'Another Speclace').recommendations.select {|r| r.nil?}).to be_empty
+    end
   end
 
   def create_product(attributes)
