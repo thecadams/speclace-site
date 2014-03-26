@@ -2,7 +2,6 @@
   = link_to first_image_for(product, :medium), product_details_path(slug: product.slug)
   %span.name= link_to product.name, product_details_path(slug: product.slug)
   %span.price= price_for(product.price_in_aud, 'AUD')
-  %span.price= price_for(product.price_in_usd, 'USD')
   = form_tag add_to_cart_path, method: :put do
     = hidden_field_tag "cart[#{product.id}]", 1
     = submit_tag 'Add to Cart', class: 'button'

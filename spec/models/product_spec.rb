@@ -5,7 +5,6 @@ describe Product do
   it { should belong_to :product_range }
   it { should validate_presence_of :name }
   it { should validate_presence_of :price_in_aud }
-  it { should validate_presence_of :price_in_usd }
   it { should validate_presence_of :priority }
   it { should validate_presence_of :stock_level }
   it { should validate_presence_of :image_1 }
@@ -137,6 +136,6 @@ describe Product do
   def create_product(attributes)
     product_range = ProductRange.create!(name: 'Default Range')
     image = Image.create!(image: File.new("#{Rails.root}/app/assets/images/logo.png"))
-    Product.create!({product_range: product_range, price_in_aud: 1, price_in_usd: 1, image_1: image, image_2: image, image_3: image, stock_level: 1}.merge(attributes))
+    Product.create!({product_range: product_range, price_in_aud: 1, image_1: image, image_2: image, image_3: image, stock_level: 1}.merge(attributes))
   end
 end

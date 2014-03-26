@@ -1,5 +1,5 @@
 class Product < ActiveRecord::Base
-  validates_presence_of :name, :price_in_aud, :price_in_usd, :priority, :stock_level, :image_1, :image_2, :image_3, :product_range
+  validates_presence_of :name, :price_in_aud, :priority, :stock_level, :image_1, :image_2, :image_3, :product_range
   validate :no_dashes_in_product_name
   validate :name_titleized
   acts_as_paranoid

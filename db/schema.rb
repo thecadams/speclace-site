@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140325075507) do
+ActiveRecord::Schema.define(version: 20140326073755) do
 
   create_table "ask_a_question_requests", force: true do |t|
     t.integer  "product_id", null: false
@@ -82,7 +82,6 @@ ActiveRecord::Schema.define(version: 20140325075507) do
     t.text     "details_html"
     t.text     "how_to_wear_it_html"
     t.decimal  "price_in_aud",                        null: false
-    t.decimal  "price_in_usd",                        null: false
     t.boolean  "new_arrival",         default: false, null: false
     t.boolean  "most_popular",        default: false, null: false
     t.boolean  "gift_idea",           default: false, null: false

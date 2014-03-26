@@ -31,16 +31,12 @@ describe ProductHelper do
     end
 
     it 'shows 2 decimal places' do
-      expect(helper.price_for(2, 'AUD')).to eq '$2.00 AUD'
-      expect(helper.price_for(2.04091, 'AUD')).to eq '$2.04 AUD'
+      expect(helper.price_for(2)).to eq '$2.00'
+      expect(helper.price_for(2.04091)).to eq '$2.04'
     end
 
     it 'shows currency' do
       expect(helper.price_for(2, 'USD')).to eq '$2.00 USD'
-    end
-
-    it 'does not require currency' do
-      expect(helper.price_for(2)).to eq '$2.00'
     end
   end
 

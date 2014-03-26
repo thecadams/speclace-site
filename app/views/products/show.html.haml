@@ -17,7 +17,6 @@
   .blurb
     = @product.blurb_html
   %p.price= price_for(@product.price_in_aud, 'AUD')
-  %p.price= price_for(@product.price_in_usd, 'USD')
   = form_tag add_to_cart_path, method: :put do
     = hidden_field_tag "cart[#{@product.id}]", 1
     = submit_tag 'Add to Cart', class: 'button'
