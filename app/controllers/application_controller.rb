@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   end
 
   def load_cart
-    return unless session[:cart]
+    return unless session[:cart].present?
     @cart_item_count = session[:cart].values.sum
     @cart_total = session[:cart].map { |product_id, quantity| Product.find(product_id).price_in_aud * quantity }.sum
   end
