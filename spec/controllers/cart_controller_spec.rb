@@ -1,31 +1,35 @@
 require 'spec_helper'
 
 describe CartController do
+  let(:product_range) { ProductRange.create!(name: 'Range') }
+  let(:image) { Image.create!(image: File.new("#{Rails.root}/app/assets/images/logo.png")) }
+  let(:product) { Product.create!(name: 'Name', price_in_aud: 1, image_1: image, image_2: image, image_3: image, product_range: product_range) }
   describe '#update' do
     it 'creates a cart with two items of product one' do
-      put :update, cart: {1 => 2}
-      expect(session[:cart]).to eq({1 => 2})
+      put :update, cart: {product.id => 2}
+      expect(session[:cart]).to eq({product.id => 2})
       response.should redirect_to cart_path
     end
 
     it 'does not modify existing cart items' do
-      session[:cart] = {2 => 1}
-      put :update, cart: {1 => 2}
-      expect(session[:cart]).to eq({1 => 2, 2 => 1})
+      product_2 = Product.create!(name: 'Name', price_in_aud: 1, image_1: image, image_2: image, image_3: image, product_range: product_range)
+      session[:cart] = {product_2.id => 1}
+      put :update, cart: {product.id => 2}
+      expect(session[:cart]).to eq({product.id => 2, product_2.id => 1})
     end
   end
 
   describe '#add' do
     it 'increases stock count' do
-      session[:cart] = {1 => 2}
-      put :add, cart: {1 => 2}
-      expect(session[:cart]).to eq({1 => 4})
+      session[:cart] = {product.id => 2}
+      put :add, cart: {product.id => 2}
+      expect(session[:cart]).to eq({product.id => 4})
       response.should redirect_to cart_path
     end
 
     it 'creates new if no current cart' do
-      put :add, cart: {1 => 2}
-      expect(session[:cart]).to eq({1 => 2})
+      put :add, cart: {product.id => 2}
+      expect(session[:cart]).to eq({product.id => 2})
       response.should redirect_to cart_path
     end
   end
@@ -43,6 +47,6 @@ describe CartController do
   def create_product(attributes)
     product_range = ProductRange.create!(name: 'Default Range')
     image = Image.create!(image: File.new("#{Rails.root}/app/assets/images/logo.png"))
-    Product.create!({product_range: product_range, price_in_aud: 1, price_in_usd: 1, image_1: image, image_2: image, image_3: image}.merge(attributes))
+    Product.create!({product_range: product_range, price_in_aud: 1, image_1: image, image_2: image, image_3: image}.merge(attributes))
   end
 end
