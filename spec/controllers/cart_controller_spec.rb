@@ -17,6 +17,18 @@ describe CartController do
       put :update, cart: {product.id => 2}
       expect(session[:cart]).to eq({product.id => 2, product_2.id => 1})
     end
+
+    it 'allows remove' do
+      session[:cart] = {product.id => 1}
+      put :update, cart: {product.id => 1}, remove: {product.id => 'Remove'}
+      expect(session[:cart]).to eq({})
+    end
+
+    it 'updates cart during checkout' do
+      put :update, cart: {product.id => 1}, checkout: 'Checkout Securely'
+      expect(session[:cart]).to eq({product.id => 1})
+      response.should redirect_to checkout_cart_path
+    end
   end
 
   describe '#add' do

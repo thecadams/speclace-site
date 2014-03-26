@@ -3,7 +3,8 @@ class CartController < ApplicationController
 
   def update
     cart_stock_counts.each { |k, v| session[:cart][k] = v }
-    redirect_to cart_path
+    params[:remove].each { |product_id, _| session[:cart].delete(product_id) } if params[:remove]
+    redirect_to params[:checkout] ? checkout_cart_path : cart_path
   end
 
   def add
