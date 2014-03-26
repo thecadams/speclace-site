@@ -18,8 +18,9 @@
     = @product.blurb_html
   %p.price= price_for(@product.price_in_aud, 'AUD')
   %p.price= price_for(@product.price_in_usd, 'USD')
-  %form{action: edit_cart_path(add_product_id: @product.id, id: 0)}
-    %input.button{type: 'submit', value: 'Add to Cart'}
+  = form_tag add_to_cart_path, method: :put do
+    = hidden_field_tag "cart[#{@product.id}]", 1
+    = submit_tag 'Add to Cart', class: 'button'
   .social
     = link_to image_tag('social/fbshare.png'), "https://www.facebook.com/sharer.php?u=#{request.url}", rel: 'nofollow', target: '_blank'
 

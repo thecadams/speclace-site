@@ -38,9 +38,13 @@ describe ProductHelper do
     it 'shows currency' do
       expect(helper.price_for(2, 'USD')).to eq '$2.00 USD'
     end
+
+    it 'does not require currency' do
+      expect(helper.price_for(2)).to eq '$2.00'
+    end
   end
 
   def image_url(style, name)
-    "http://speclace.s3.amazonaws.com/images/images//#{style}/#{name}?#{Time.now.to_i}"
+    "/system/images/images//#{style}/#{name}?#{Time.now.to_i}"
   end
 end

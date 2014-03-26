@@ -20,8 +20,8 @@ module ProductHelper
     end
   end
 
-  def price_for(price, currency)
-    "#{number_to_currency price, unit: '$'} #{currency}"
+  def price_for(price, currency=nil)
+    number_to_currency(price, unit: '$') + (currency ? ' ' + currency : '')
   end
 
   def spinner

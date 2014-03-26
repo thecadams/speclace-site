@@ -23,5 +23,8 @@ Speclace::Application.routes.draw do
   post '/contact-request', as: :contact_request, to: 'contact_requests#create'
   post '/ask-a-question', as: :ask_a_question_request, to: 'ask_a_question_requests#create'
 
-  resources :cart
+  get '/cart', as: :cart, to: 'cart#index'
+  get '/cart/checkout', as: :checkout_cart, to: 'cart#checkout'
+  put '/cart', as: :update_cart, to: 'cart#update'
+  put '/cart/add', as: :add_to_cart, to: 'cart#add'
 end

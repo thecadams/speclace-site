@@ -3,8 +3,9 @@
   %span.name= link_to product.name, product_details_path(slug: product.slug)
   %span.price= price_for(product.price_in_aud, 'AUD')
   %span.price= price_for(product.price_in_usd, 'USD')
-  %form{action: edit_cart_path(add_product_id: product.id, id: 0)}
-    %input.button{type: 'submit', value: 'Add to Cart'}
+  = form_tag add_to_cart_path, method: :put do
+    = hidden_field_tag "cart[#{product.id}]", 1
+    = submit_tag 'Add to Cart', class: 'button'
   - if product.product_badge
     .badge-wrapper
       %div{class: "badge #{product.product_badge.product_badge_css_class.name.downcase}"} #{product.product_badge.name}
