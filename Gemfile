@@ -22,6 +22,7 @@ gem 'timecop'
 group :development, :test do
   gem 'sqlite3', '1.3.8'
   gem 'awesome_print'
+  gem 'jasmine'
 end
 
 group :production do
