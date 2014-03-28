@@ -3,7 +3,8 @@ class CreatePayments < ActiveRecord::Migration
     create_table :payments do |t|
       t.integer :order_id
       t.boolean :ok
-      t.text :response_data
+      t.string :token
+      t.string :payer_id
       t.timestamps
       t.datetime :deleted_at
     end

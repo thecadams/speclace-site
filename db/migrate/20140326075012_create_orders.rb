@@ -4,7 +4,6 @@ class CreateOrders < ActiveRecord::Migration
       t.integer :delivery_address_id, null: false
       t.integer :billing_address_id
       t.text :comments
-      t.boolean :confirmed
       t.timestamps
       t.datetime :deleted_at
     end

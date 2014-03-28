@@ -18,6 +18,7 @@ gem 'simple_form'
 gem 'paperclip'
 gem 'aws-sdk'
 gem 'timecop'
+gem 'paypal-express'
 
 group :development, :test do
   gem 'sqlite3', '1.3.8'
