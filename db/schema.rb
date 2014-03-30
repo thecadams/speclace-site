@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20140326075502) do
     t.string   "street_address_1", null: false
     t.string   "street_address_2"
     t.string   "city",             null: false
-    t.string   "postal_code",      null: false
+    t.string   "postcode",         null: false
     t.string   "state",            null: false
     t.string   "country",          null: false
     t.string   "email",            null: false
@@ -76,7 +76,8 @@ ActiveRecord::Schema.define(version: 20140326075502) do
   add_index "navigation_items", ["deleted_at"], name: "index_navigation_items_on_deleted_at"
 
   create_table "orders", force: true do |t|
-    t.integer  "delivery_address_id", null: false
+    t.string   "session_id"
+    t.integer  "delivery_address_id"
     t.integer  "billing_address_id"
     t.text     "comments"
     t.datetime "created_at"
@@ -87,15 +88,13 @@ ActiveRecord::Schema.define(version: 20140326075502) do
   create_table "orders_products", force: true do |t|
     t.integer  "order_id"
     t.integer  "product_id"
-    t.integer  "quantity"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.datetime "deleted_at"
   end
 
   create_table "payments", force: true do |t|
-    t.integer  "order_id"
-    t.boolean  "ok"
+    t.integer  "order_id",                   null: false
+    t.boolean  "complete",   default: false, null: false
     t.string   "token"
     t.string   "payer_id"
     t.datetime "created_at"

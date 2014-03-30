@@ -27,7 +27,7 @@ class CartController < ApplicationController
   end
 
   def cart_stock_counts
-    cart = params[:cart]
+    cart = params[:cart] || {}
     cart.each { |k, v| cart[k] = v.to_i }
   end
 end

@@ -3,9 +3,7 @@ class CreateOrdersProducts < ActiveRecord::Migration
     create_table :orders_products do |t|
       t.integer :order_id
       t.integer :product_id
-      t.integer :quantity
       t.timestamps
-      t.datetime :deleted_at
     end
   end
 end

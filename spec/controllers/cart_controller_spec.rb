@@ -8,7 +8,6 @@ describe CartController do
     it 'creates a cart with two items of product one' do
       put :update, cart: {product.id => 2}
       expect(session[:cart]).to eq({product.id => 2})
-      response.should redirect_to cart_path
     end
 
     it 'does not modify existing cart items' do
@@ -17,6 +16,11 @@ describe CartController do
       put :update, cart: {product.id => 2}
       expect(session[:cart]).to eq({product.id => 2, product_2.id => 1})
     end
+
+    it 'redirects to cart' do
+      put :add
+      expect(response).to redirect_to cart_path
+    end
   end
 
   describe '#add' do
@@ -24,13 +28,16 @@ describe CartController do
       session[:cart] = {product.id => 2}
       put :add, cart: {product.id => 2}
       expect(session[:cart]).to eq({product.id => 4})
-      response.should redirect_to cart_path
     end
 
     it 'creates new if no current cart' do
       put :add, cart: {product.id => 2}
       expect(session[:cart]).to eq({product.id => 2})
-      response.should redirect_to cart_path
+    end
+
+    it 'redirects to cart' do
+      put :add
+      expect(response).to redirect_to cart_path
     end
   end
 

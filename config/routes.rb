@@ -27,7 +27,7 @@ Speclace::Application.routes.draw do
   put '/cart', as: :update_cart, to: 'cart#update'
   put '/cart/add', as: :add_to_cart, to: 'cart#add'
 
-  get '/checkout', as: :checkout, to: 'checkout#inmdex'
+  get '/checkout', as: :checkout, to: 'checkout#index'
   post '/checkout', as: :update_checkout, to: 'checkout#update'
   get '/checkout/confirm', as: :confirm_checkout, to: 'checkout#confirm'
   post '/checkout/confirm', as: :checkout_confirmed, to: 'checkout#confirmed'

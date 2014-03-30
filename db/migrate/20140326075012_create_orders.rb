@@ -1,7 +1,8 @@
 class CreateOrders < ActiveRecord::Migration
   def change
     create_table :orders do |t|
-      t.integer :delivery_address_id, null: false
+      t.string :session_id
+      t.integer :delivery_address_id
       t.integer :billing_address_id
       t.text :comments
       t.timestamps
