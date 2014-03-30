@@ -19,36 +19,70 @@ class CheckoutService
     end
 
     def save(session_id, session_order, session_cart)
-      order = Order.create!(
+      Order.create!(
         session_id: session_id,
         products: products_from(session_cart),
         delivery_address: Address.create!(session_order[:delivery_address]),
         billing_address: Address.create!(session_order[:billing_address]),
         comments: session_order[:comments]
       )
-
-      Payment.create!(order: order)
     end
 
     def create_payment_for(order, success_url, cancel_url)
-      request = Paypal::Express::Request.new
-      payment = Paypal::SDK::Rest::Payment.new
-
-      products = []
+      items = []
       product_counts(order.products).each do |product, quantity|
-        products << Paypal::Payment::Request.new(
-          currency_code: :AUD,
-          description: product.name,
-          quantity: quantity,
-          amount: product.price_in_aud
-        )
+        items << {
+          name: product.name,
+          sku: product.slug,
+          price: product.price_in_aud,
+          currency_code: 'AUD',
+          quantity: quantity
+        }
       end
 
-      request.setup(
-        products,
-        success_url,
-        cancel_url
-      )
+      total = order.products.inject(0) { |sum, product| sum += product.price_in_aud }
+
+      paypal_payment = create_paypal_payment({
+        intent: 'sale',
+        payer: { payment_method: 'paypal' },
+        redirect_urls: {
+          return_url: success_url,
+          cancel_url: cancel_url
+        },
+        transactions: [
+          {
+            item_list: { items: items },
+            amount: {
+              total: total,
+              currency: 'AUD'
+            },
+            description: 'Your Speclace order'
+          }
+        ]
+      })
+
+      Payment.create!(order: order, payment_id: paypal_payment.id, payment_object: paypal_payment.inspect)
+
+      raise paypal_payment.error unless paypal_payment.create
+      paypal_payment
+    end
+
+    def complete_payment(payment_id, payer_id)
+      raise 'valid payment_id required' unless payment_id &&
+        (payment = Payment.find_by_payment_id(payment_id))
+      payment.update_attributes(complete: true)
+
+      success = complete_paypal_payment(payment_id, payer_id)
+      if success
+        product_counts(payment.order.products).each do |product, quantity|
+          product.update_attributes(stock_level: product.stock_level - quantity)
+        end
+      end
+      success
+    end
+
+    def redirect_url_for(payment)
+      payment.links.find{|v| v.method == "REDIRECT" }.try(:href)
     end
 
     def product_counts(products)
@@ -59,9 +93,17 @@ class CheckoutService
 
     private
 
+    def create_paypal_payment(attributes)
+      PayPal::SDK::REST::Payment.new(attributes)
+    end
+
+    def complete_paypal_payment(payment_id, payer_id)
+      PayPal::SDK::REST::Payment.find(payment_id).execute(payer_id: payer_id)
+    end
+
     def products_from(session_cart)
       products = []
-      session_cart.each do |product_id, quantity|
+      (session_cart || {}).each do |product_id, quantity|
         product = Product.find(product_id)
         quantity.times do
           products << product

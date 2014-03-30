@@ -93,10 +93,10 @@ ActiveRecord::Schema.define(version: 20140326075502) do
   end
 
   create_table "payments", force: true do |t|
-    t.integer  "order_id",                   null: false
-    t.boolean  "complete",   default: false, null: false
-    t.string   "token"
-    t.string   "payer_id"
+    t.integer  "order_id",                       null: false
+    t.boolean  "complete",       default: false, null: false
+    t.string   "payment_id"
+    t.text     "payment_object"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "deleted_at"

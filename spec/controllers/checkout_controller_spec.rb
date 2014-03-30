@@ -40,43 +40,81 @@ describe CheckoutController do
   end
 
   describe '#confirmed' do
+    before do
+      CheckoutService.stub(:save)
+      CheckoutService.stub(:create_payment_for)
+      CheckoutService.stub(:redirect_url_for) { 'http://paypal.example.com/' }
+    end
+
     it 'saves the order and a payment record' do
       product = create_product(name: 'Example')
       session[:cart] = {product.id => 1}
       post :confirmed
-      expect(Order.count).to eq 1
-      expect(Address.count).to eq 2
-      expect(Order.first.session_id).to eq request.session_options[:id]
-      expect(Order.products).to eq [product]
-
-      expect(Payment.count).to eq 1
-      expect(Payment.first.order).to eq Order.first
+      expect(CheckoutService).to have_received(:save).with(request.session_options[:id], session[:order], {product.id => 1})
     end
 
-    it 'prepares a paypal payment and redirects' do
+    it 'prepares a paypal payment' do
+      CheckoutService.stub(:save) { :order }
       post :confirmed
-      expect(assigns(:payment_request)).not_to be_nil
+      expect(CheckoutService).to have_received(:create_payment_for).with(:order, checkout_success_url, checkout_cancel_url)
     end
 
     it 'issues a redirect to paypal' do
       post :confirmed
-      expect(response).to redirect_to 'paypal'
+      expect(response).to redirect_to 'http://paypal.example.com/'
     end
   end
 
   describe '#success' do
-    it 'checks paypal parameters are present'
-    it 'looks up the order based on most recent and session id or token, not sure which yet'
-    it 'is ok if no order can be found'
-    it 'updates the payment record'
-    it 'removes the order from the session'
-    it 'updates stock levels'
+    it 'checks paypal parameters are present' do
+      expect { get :success }.to raise_error 'valid PayPal response parameters required'
+    end
+
+    it 'completes the payment' do
+      CheckoutService.stub(:complete_payment)
+      get :success, token: 'payment_id', 'PayerID' => 'payer_id'
+      expect(CheckoutService).to have_received(:complete_payment).with('payment_id', 'payer_id')
+    end
+
+    it 'removes the order from the session' do
+      CheckoutService.stub(:complete_payment)
+      get :success, token: 'payment_id', 'PayerID' => 'payer_id'
+      expect(session[:order]).to be_nil
+    end
+
+    context 'when the payment did not complete' do
+      before do
+        CheckoutService.stub(:complete_payment).and_raise 'error'
+        Rails.logger.stub(:error)
+      end
+
+      it 'logs the error' do
+        get :success, token: 'payment_id', 'PayerID' => 'payer_id'
+        expect(Rails.logger).to have_received(:error).once
+      end
+
+      it 'sets a flash' do
+        get :success, token: 'payment_id', 'PayerID' => 'payer_id'
+        expect(flash[:error]).to eq "Sorry, we had a problem completing your payment with PayPal: 'error'. Please try again."
+      end
+
+      it 'redirects to the checkout confirm page' do
+        get :success, token: 'payment_id', 'PayerID' => 'payer_id'
+        expect(response).to redirect_to confirm_checkout_path
+      end
+    end
   end
 
   describe '#cancel' do
-    it 'checks paypal parameters are present'
-    it 'sets a flash'
-    it 'redirects to the cart'
+    it 'sets a flash' do
+      get :cancel
+      expect(flash[:error]).to eq "Looks like you canceled your payment. We've sent you to your cart in case you want to try again."
+    end
+
+    it 'redirects to the cart' do
+      get :cancel
+      expect(response).to redirect_to cart_path
+    end
   end
 
   def init_session

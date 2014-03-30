@@ -65,37 +65,106 @@ describe CheckoutService do
       expect(order.delivery_address.attributes).to eq Address.all[0].attributes
       expect(order.billing_address.attributes).to eq Address.all[1].attributes
       expect(order.comments).to eq 'comments'
-
-      expect(Payment.count).to eq 1
-      payment = Payment.first
-      expect(payment.order).to eq Order.first
-      expect(payment.complete).to be_false
-
-      expect(order.payments.first).to eq payment
     end
   end
 
   describe '.create_payment_for' do
-    it 'is a paypal response' do
-      expect(CheckoutService.create_payment_for(Order.new, 'success_url', 'cancel_url')).to be_a Paypal::Express::Response
+    it 'creates a payment in the database' do
+      CheckoutService.stub(:create_paypal_payment).and_return { double(create: true, id: 'id') }
+      CheckoutService.create_payment_for(Order.create!, nil, nil)
+
+      order = Order.first
+      payment = Payment.first
+      expect(order.payments).to eq [payment]
+      expect(payment.order).to eq Order.first
+
+      expect(payment.complete).to be_false
+      expect(payment.payment_id).not_to be_nil
+      expect(payment.payment_object).not_to be_nil
     end
 
     it 'has products and urls' do
+      CheckoutService.stub(:create_paypal_payment).and_return { double(create: true, id: 'id') }
       product = create_product(name: 'Product 1', price_in_aud: 21.95)
-      response = CheckoutService.create_payment_for(Order.create!(products: [product, product]), 'success_url', 'cancel_url')
-      expect(response.success_url).to eq 'success_url'
-      expect(response.cancel_url).to eq 'cancel_url'
-      expect(response.products.count).to eq 1
-      expect(response.products[0].currency_code).to eq :AUD
-      expect(response.products[0].description).to eq 'Product 1'
-      expect(response.products[0].quantity).to eq 1
-      expect(response.products[0].amount).to eq product.price_in_aud
+      CheckoutService.create_payment_for(Order.create!(products: [product, product]), 'success_url', 'cancel_url')
+      expect(CheckoutService).to have_received(:create_paypal_payment).with(
+        {
+          intent: 'sale',
+          payer: { payment_method: 'paypal' },
+          redirect_urls: {
+            return_url: 'success_url',
+            cancel_url: 'cancel_url'
+          },
+          transactions: [
+            {
+              item_list: {
+                items: [
+                  {
+                    name: product.name,
+                    sku: product.slug,
+                    price: product.price_in_aud,
+                    currency_code: 'AUD',
+                    quantity: 2
+                  }
+                ]
+              },
+              amount: {
+                total: product.price_in_aud * 2,
+                currency: 'AUD'
+              },
+              description: 'Your Speclace order'
+            }
+          ]
+        }
+      )
+    end
+
+    context 'when create fails' do
+      before { CheckoutService.stub(:create_paypal_payment).and_return { double(create: false, id: 'id', error: 'error') } }
+
+      it 'raises the error' do
+        expect { CheckoutService.create_payment_for(Order.create!, nil, nil) }.to raise_error 'error'
+      end
     end
   end
 
   describe '.product_counts' do
     it 'returns a hash of counts' do
       expect(CheckoutService.product_counts([1,1,2,2,2])).to eq({1=>2, 2=>3})
+    end
+  end
+
+  describe '.complete_payment' do
+    let(:product) { create_product(name: 'Product', stock_level: 5) }
+    let(:order) { Order.create!(products: [product, product]) }
+    let(:payment) { Payment.create!(payment_id: 'payment_id', order: order) }
+
+    it 'checks paypal parameters are present' do
+      expect { CheckoutService.complete_payment(nil, nil) }.to raise_error 'valid payment_id required'
+      expect { CheckoutService.complete_payment('nonexistent_payment_id', nil) }.to raise_error 'valid payment_id required'
+    end
+
+    it 'marks the payment complete' do
+      CheckoutService.stub(:complete_paypal_payment)
+      CheckoutService.complete_payment(payment.payment_id, 'payer_id')
+      expect(payment.reload.complete).to be_true
+    end
+
+    context 'when paypal successfully completes' do
+      before { CheckoutService.stub(:complete_paypal_payment) { true } }
+
+      it 'updates stock levels' do
+        CheckoutService.complete_payment(payment.payment_id, 'payer_id')
+        expect(Product.first.stock_level).to eq 3
+      end
+    end
+
+    context 'when paypal fails to complete' do
+      before { CheckoutService.stub(:complete_paypal_payment) { false } }
+
+      it 'returns false' do
+        expect(CheckoutService.complete_payment(payment.payment_id, 'payer_id')).to be_false
+      end
     end
   end
 
