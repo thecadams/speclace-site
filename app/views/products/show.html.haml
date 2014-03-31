@@ -2,7 +2,7 @@
   .images
     .thumbnails
       - @product.images.each do |image|
-        = link_to image_tag(image.image(:small), alt: image.alt), 'javascript:void(0)'
+        = link_to image_tag(image.image(:small), alt: image.alt, width: 90, height: 90), 'javascript:void(0)'
 
     #image
       = raw delay_loaded_images(@product.images, :medium)
@@ -14,11 +14,11 @@
       = spinner
 
   .details
-    %h2= @product.name
+    %h2.name= @product.name
     .blurb
-      = @product.blurb_html
+      = raw @product.blurb_html
     %p.price= price_for(@product.price_in_aud, 'AUD')
-    = form_tag add_to_cart_path, method: :put do
+    = form_tag add_to_cart_path, method: :put, class: 'add-to-cart' do
       = hidden_field_tag "cart[#{@product.id}]", 1
       = submit_tag 'Add to Cart', class: 'button'
     .social

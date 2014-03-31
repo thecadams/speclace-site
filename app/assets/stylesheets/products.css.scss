@@ -6,11 +6,11 @@
 
     .thumbnails {
       float: left;
-      width: 100px;
+      width: 90px;
 
       img {
-        width: 90px;
-        height: 90px;
+        width: 81px;
+        height: 81px;
         padding: 3px;
         border: 1px solid #eee;
       }
@@ -19,6 +19,7 @@
     #image {
       float: left;
       position: relative;
+      margin: 0 4px;
 
       img {
         width: 400px;
@@ -36,7 +37,7 @@
 
     #zoomwindow {
       position: absolute;
-      left: 510px;
+      left: 518px;
       top: 0;
       overflow: hidden;
       width: 300px;
@@ -54,18 +55,58 @@
   }
 
   .details {
-    float: left;
-    width: 450px;
+    float: right;
+    width: 412px;
+
+    .name {
+      margin: 16px 0 2px;
+      font-weight: inherit;
+    }
 
     .price {
-      color: #666;
-      font-size: 14px;
+      font-size: 18px;
       font-weight: bold;
+    }
+
+    .add-to-cart {
+      margin: 20px 0 34px 0;
     }
   }
 
   #tabs {
+    padding: 0px;
+    border-width: 0px;
     clear: both;
+    width: 660px;
+
+    .ui-tabs-nav {
+      padding-left: 0px;
+      background: transparent;
+      border-width: 0px 0px 1px 0px;
+      -moz-border-radius: 0px;
+      -webkit-border-radius: 0px;
+      border-radius: 0px;
+
+      li {
+        a {
+          padding: 0 10px;
+          font: bold 12px/19px Verdana;
+          color: $product-link-color;
+        }
+
+        &.ui-tabs-active a {
+          color: $button-background-color;
+        }
+      }
+    }
+
+    .ui-tabs-panel {
+      border-width: 0px 1px 1px 1px;
+    }
+
+    &.ui-widget * {
+      outline:none;
+    }
   }
 
   .recommendations {
@@ -87,12 +128,10 @@
       }
 
       a {
-        text-decoration: none;
         color: $product-link-color;
       }
 
       a:hover {
-        text-decoration: underline;
         color: $product-link-hover-color;
       }
     }
