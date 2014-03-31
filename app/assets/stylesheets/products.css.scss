@@ -1,94 +1,100 @@
-.images {
-  position: relative;
+.product {
+  margin: 0 15px;
 
-  .thumbnails {
-    float: left;
-    width: 100px;
-
-    img {
-      width: 90px;
-      height: 90px;
-    }
-  }
-
-  #image {
-    float: left;
+  .images {
     position: relative;
 
-    img {
-      width: 400px;
-      height: 400px;
-    }
-
-    #zoomindicator {
-      position: absolute;
-      background-color: $zoom-indicator-color;
-      width: 172px; // width of #zoomwindow's visible portion: 400 * (300/700)
-      height: 143px; // height of #zoomwindow's visible portion: 400 * (250/700)
-      z-index: 0;
-    }
-  }
-
-  #zoomwindow {
-    position: absolute;
-    left: 510px;
-    top: 0;
-    overflow: hidden;
-    width: 300px;
-    height: 250px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    z-index: 1;
-
-    img {
-      position: absolute;
-      width: 700px;
-      height: 700px;
-    }
-  }
-}
-
-.details {
-  float: left;
-  width: 450px;
-
-  .price {
-    color: #666;
-    font-size: 14px;
-    font-weight: bold;
-  }
-}
-
-#tabs {
-  clear: both;
-}
-
-.recommendations {
-  float: left;
-  padding: 10px;
-
-  .recommendation {
-    float: left;
-    margin: 18px 60px 18px 0;
-
-    img {
+    .thumbnails {
+      float: left;
       width: 100px;
-      height: 100px;
+
+      img {
+        width: 90px;
+        height: 90px;
+        padding: 3px;
+        border: 1px solid #eee;
+      }
     }
 
-    .name {
-      display: block;
-      text-align: center;
+    #image {
+      float: left;
+      position: relative;
+
+      img {
+        width: 400px;
+        height: 400px;
+      }
+
+      #zoomindicator {
+        position: absolute;
+        background-color: $zoom-indicator-color;
+        width: 172px; // width of #zoomwindow's visible portion: 400 * (300/700)
+        height: 143px; // height of #zoomwindow's visible portion: 400 * (250/700)
+        z-index: 0;
+      }
     }
 
-    a {
-      text-decoration: none;
-      color: $product-link-color;
-    }
+    #zoomwindow {
+      position: absolute;
+      left: 510px;
+      top: 0;
+      overflow: hidden;
+      width: 300px;
+      height: 250px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      z-index: 1;
 
-    a:hover {
-      text-decoration: underline;
-      color: $product-link-hover-color;
+      img {
+        position: absolute;
+        width: 700px;
+        height: 700px;
+      }
+    }
+  }
+
+  .details {
+    float: left;
+    width: 450px;
+
+    .price {
+      color: #666;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+
+  #tabs {
+    clear: both;
+  }
+
+  .recommendations {
+    float: left;
+    padding: 10px;
+
+    .recommendation {
+      float: left;
+      margin: 18px 60px 18px 0;
+
+      img {
+        width: 100px;
+        height: 100px;
+      }
+
+      .name {
+        display: block;
+        text-align: center;
+      }
+
+      a {
+        text-decoration: none;
+        color: $product-link-color;
+      }
+
+      a:hover {
+        text-decoration: underline;
+        color: $product-link-hover-color;
+      }
     }
   }
 }
