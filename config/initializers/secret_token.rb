@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Speclace::Application.config.secret_key_base = 'e84fae9641271af6c4b9454682b9e19366b0634365109849a8414f2d957629454e4f91cf437bd951af371e449a57f218c03ff4d2c834ddf2dbdef2982364da25'
+Speclace::Application.config.secret_key_base = ENV['SECRET_KEY_BASE']
