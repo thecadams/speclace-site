@@ -9,7 +9,7 @@
     = a.input :postcode, label: 'Postal Code:'
     .input
       = a.label :country, '<abbr title="required">*</abbr> Country:'.html_safe
-      = a.country_select :country, priority: %w(AU US CA), prompt: 'Please select a country', name: "order[#{address}][country]"
+      = a.country_select :country, { priority: %w(AU US CA), prompt: 'Please select a country' }, class: 'required', 'aria-required' => true, required: 'required'
     .input
       = a.label :state, '<abbr title="required">*</abbr> State/Province:'.html_safe
       = render partial: 'subregion_select', locals: {parent_region: @order.send(address).country, address: address}
