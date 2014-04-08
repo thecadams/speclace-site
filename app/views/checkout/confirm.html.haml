@@ -1,0 +1,29 @@
+.sidebars
+  = render partial: 'sidebar/customer_care'
+.content
+  %h1.title Confirm Order
+  = image_tag 'progress-bar-3.jpg', class: 'txt-r'
+  %p Your order is almost complete. Please review the details below and click 'Submit Order' if all the information is correct. You may use the 'Back' button to make changes to your order if necessary.
+  %table
+    %thead
+      %tr
+        %th Qty
+        %th Products
+        %th Price
+    %tbody
+      - @order_products.each do |product, quantity|
+        %tr
+          %td #{quantity} x
+          %td= product.name
+          %td= price_for(product.price_in_aud * quantity)
+      %tr.subtotal{colspan: 6}
+        %td
+          Subtotal: #{price_for @subtotal}
+          %br
+          Shipping: #{price_for @shipping}
+          %br
+          Total: #{price_for @total}
+  = form_tag do
+    .actions
+      = submit_tag 'Back', name: 'back', class: 'button'
+      = submit_tag 'Submit Order', name: 'submit', class: 'button'

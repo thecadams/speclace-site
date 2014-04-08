@@ -11,8 +11,8 @@ describe Image do
 
   it 'has soft delete' do
     Image.create!(image: File.new("#{Rails.root}/app/assets/images/logo.png")).destroy
-    expect(Image.with_deleted.count).to eq 1
-    expect(Image.with_deleted.first.deleted_at).not_to be_nil
+    expect(Image.only_deleted.count).to eq 1
+    expect(Image.only_deleted.first.deleted_at).not_to be_nil
   end
 
   describe '#name' do

@@ -43,3 +43,7 @@ RSpec.configure do |config|
 
   config.include Paperclip::Shoulda::Matchers
 end
+
+Image.delete_all
+Image.with_deleted.delete_all
+$image = Image.create!(image: File.new("#{Rails.root}/app/assets/images/logo.png"))

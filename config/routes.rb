@@ -33,4 +33,5 @@ Speclace::Application.routes.draw do
   post '/checkout/confirm', as: :checkout_confirmed, to: 'checkout#confirmed'
   get '/checkout/success', as: :checkout_success, to: 'checkout#success'
   get '/checkout/cancel', as: :checkout_cancel, to: 'checkout#cancel'
+  get '/checkout/subregion_options', to: 'checkout#subregion_options'
 end

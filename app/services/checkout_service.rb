@@ -1,30 +1,50 @@
 class CheckoutService
   class << self
-    def order_from(session_id, session_order)
+    def order_from(session_id, session_order, session_cart)
       session_order ||= {}
       Order.new(
         session_id: session_id,
+        products: products_from(session_cart),
         delivery_address: address_from(session_order[:delivery_address]),
         billing_address: address_from(session_order[:billing_address]),
         comments: session_order[:comments]
-      )
+      ).tap(&:valid?)
     end
 
     def update_session(session_order, order_params)
       return session_order unless order_params
+
+      session_order ||= {}
       session_order[:comments] = order_params['comments'] if order_params['comments']
-      session_order[:delivery_address] = session_order[:delivery_address].merge(order_params['delivery_address'].symbolize_keys) if order_params['delivery_address']
-      session_order[:billing_address] = session_order[:billing_address].merge(order_params['billing_address'].symbolize_keys) if order_params['billing_address']
+      session_order[:same_addresses] = order_params['same_addresses'].to_bool if order_params['same_addresses']
+
+      session_delivery_address = (session_order[:delivery_address] || {}).merge(order_params['delivery_address'].symbolize_keys) if order_params['delivery_address']
+      if session_order[:same_addresses]
+        session_billing_address = session_delivery_address
+      else
+        session_billing_address = (session_order[:billing_address] || {}).merge(order_params['billing_address'].symbolize_keys) if order_params['billing_address']
+      end
+
+      session_order[:delivery_address] = session_delivery_address if session_delivery_address.present?
+      session_order[:billing_address] = session_billing_address if session_billing_address.present?
       session_order
     end
 
-    def save(session_id, session_order, session_cart)
+    def save!(session_id, session_order, session_cart)
+      delivery_address = session_order ? Address.create!(session_order[:delivery_address]) : nil
+
+      if session_order
+        billing_address = session_order[:same_addresses] ?
+          delivery_address :
+          Address.create!(session_order[:billing_address])
+      end
+
       Order.create!(
         session_id: session_id,
         products: products_from(session_cart),
-        delivery_address: Address.create!(session_order[:delivery_address]),
-        billing_address: Address.create!(session_order[:billing_address]),
-        comments: session_order[:comments]
+        delivery_address: delivery_address,
+        billing_address: billing_address,
+        comments: session_order ? session_order[:comments] : nil
       )
     end
 

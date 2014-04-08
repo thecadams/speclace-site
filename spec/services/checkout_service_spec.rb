@@ -1,13 +1,43 @@
 require 'spec_helper'
 
 describe CheckoutService do
+  describe '.order_from' do
+    it 'attempts to validate the order' do
+      expect(CheckoutService.order_from('session_id', { delivery_address: { first_name:'abc' } }, nil).errors[:delivery_address]).to be_present
+    end
+  end
+
   describe '.update_session' do
     it 'does not update without params' do
       expect(CheckoutService.update_session({comments: 'foo'}, nil)).to eq({comments: 'foo'})
     end
 
+    it 'creates order in session' do
+      expect(CheckoutService.update_session(nil, {'comments' => 'foo'})).to eq({comments: 'foo'})
+    end
+
     it 'updates comments' do
       expect(CheckoutService.update_session({comments: 'foo'}, {'comments' => 'bar'})).to eq({comments: 'bar'})
+    end
+
+    it 'updates same_addresses' do
+      expect(CheckoutService.update_session(nil, {'same_addresses' => '1'})).to eq({same_addresses: true})
+      expect(CheckoutService.update_session(nil, {'same_addresses' => '0'})).to eq({same_addresses: false})
+      expect(CheckoutService.update_session({same_addresses: true}, {'same_addresses' => '0'})).to eq({same_addresses: false})
+    end
+
+    it 'creates delivery address' do
+      expect(CheckoutService.update_session(
+       nil,
+       as_params({delivery_address: unmodified_address})))
+      .to eq({delivery_address: unmodified_address})
+    end
+
+    it 'creates billing address' do
+      expect(CheckoutService.update_session(
+       nil,
+       as_params({billing_address: unmodified_address})))
+      .to eq({billing_address: unmodified_address})
     end
 
     it 'updates delivery address' do
@@ -43,20 +73,43 @@ describe CheckoutService do
           comments: 'bar'
         })
     end
+
+    it 'makes addresses the same' do
+      expect(CheckoutService.update_session(
+        {
+          delivery_address: unmodified_address,
+          billing_address: unmodified_address,
+          same_addresses: false
+        },
+        as_params({
+          delivery_address: modified_address,
+          billing_address: unmodified_address,
+          same_addresses: 'true'
+        })))
+      .to eq(
+        {
+          delivery_address: modified_address,
+          billing_address: modified_address,
+          same_addresses: true
+        })
+    end
   end
 
-  describe '.save' do
-    it 'saves the order and creates a payment' do
-      session_id = 'session_id'
-      product_1 = create_product(name: 'Product 1')
-      product_2 = create_product(name: 'Product 2')
-      session_cart = {product_1.id => 2, product_2.id => 3}
-      session_order = {
+  describe '.save!' do
+    let(:session_id) { 'session_id' }
+    let(:product_1) { FactoryGirl.create(:product) }
+    let(:product_2) { FactoryGirl.create(:product) }
+    let(:session_cart) { {product_1.id => 2, product_2.id => 3} }
+    let(:session_order) {
+      {
         delivery_address: unmodified_address,
         billing_address: modified_address,
         comments: 'comments'
       }
-      CheckoutService.save(session_id, session_order, session_cart)
+    }
+
+    it 'saves the order and creates a payment' do
+      CheckoutService.save!(session_id, session_order, session_cart)
 
       expect(Order.count).to eq 1
       order = Order.first
@@ -65,6 +118,19 @@ describe CheckoutService do
       expect(order.delivery_address.attributes).to eq Address.all[0].attributes
       expect(order.billing_address.attributes).to eq Address.all[1].attributes
       expect(order.comments).to eq 'comments'
+    end
+
+    it 'saves the same addresses' do
+      session_order[:same_addresses] = true
+      CheckoutService.save!(session_id, session_order, session_cart)
+
+      order = Order.first
+      expect(order.delivery_address.attributes).to eq order.billing_address.attributes
+    end
+
+    it 'creates a blank order' do
+      CheckoutService.save!('session_id', nil, session_cart)
+      expect(Order.count).to eq 1
     end
   end
 
@@ -85,7 +151,7 @@ describe CheckoutService do
 
     it 'has products and urls' do
       CheckoutService.stub(:create_paypal_payment).and_return { double(create: true, id: 'id') }
-      product = create_product(name: 'Product 1', price_in_aud: 21.95)
+      product = FactoryGirl.create(:product, price_in_aud: 21.95)
       CheckoutService.create_payment_for(Order.create!(products: [product, product]), 'success_url', 'cancel_url')
       expect(CheckoutService).to have_received(:create_paypal_payment).with(
         {
@@ -135,7 +201,7 @@ describe CheckoutService do
   end
 
   describe '.complete_payment' do
-    let(:product) { create_product(name: 'Product', stock_level: 5) }
+    let(:product) { FactoryGirl.create(:product, stock_level: 5) }
     let(:order) { Order.create!(products: [product, product]) }
     let(:payment) { Payment.create!(payment_id: 'payment_id', order: order) }
 
@@ -205,11 +271,5 @@ describe CheckoutService do
     params_hash[:billing_address] = params_hash[:billing_address].stringify_keys if params_hash[:billing_address]
     params_hash = params_hash.stringify_keys
     params_hash
-  end
-
-  def create_product(attributes)
-    product_range = ProductRange.create!(name: 'Default Range')
-    image = Image.create!(image: File.new("#{Rails.root}/app/assets/images/logo.png"))
-    Product.create!({product_range: product_range, price_in_aud: 1, image_1: image, image_2: image, image_3: image}.merge(attributes))
   end
 end

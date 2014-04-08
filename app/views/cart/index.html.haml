@@ -3,7 +3,7 @@
 .content
   %h1.title Shopping Cart
   - if @cart && @cart.present?
-    = image_tag 'progress-bar-1.jpg', class: 'progress'
+    = image_tag 'progress-bar-1.jpg', class: 'txt-r'
     = form_tag update_cart_path, method: :put do
       %table
         %thead

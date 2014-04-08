@@ -12,10 +12,8 @@ describe Product do
   it { should validate_presence_of :image_3 }
   it { should validate_presence_of :product_range }
 
-  let(:image) { Image.create!(image: File.new("#{Rails.root}/app/assets/images/logo.png")) }
-
   it 'has soft delete' do
-    create_product(name: 'Name').destroy
+    FactoryGirl.create(:product, name: 'Name').destroy
     expect(Product.with_deleted.count).to eq 1
     expect(Product.with_deleted.first.deleted_at).not_to be_nil
   end
@@ -62,7 +60,7 @@ describe Product do
   describe '#recommendations' do
     it 'returns manually selected recommendations' do
       recommendations = []
-      5.times { recommendations << create_product(name: 'Recommendation', stock_level: 1) }
+      5.times { recommendations << FactoryGirl.create(:product, name: 'Recommendation', stock_level: 1) }
       product = Product.new(
         recommendation_1: recommendations[0],
         recommendation_2: recommendations[1],
@@ -75,7 +73,7 @@ describe Product do
 
     it 'does not hit the database when all recommendations are selected' do
       recommendations = []
-      5.times { recommendations << create_product(name: 'Recommendation', stock_level: 1) }
+      5.times { recommendations << FactoryGirl.create(:product, name: 'Recommendation', stock_level: 1) }
       product = Product.new(
         recommendation_1: recommendations[0],
         recommendation_2: recommendations[1],
@@ -94,48 +92,42 @@ describe Product do
       second_range = ProductRange.new(name: 'Second Range')
 
       recommendations = [
-        create_product(name: 'Another Product From Current Range', product_range: current_range, stock_level: 2),
-        create_product(name: 'Low Stock Product From Current Range', product_range: current_range, stock_level: 1),
-        create_product(name: 'High Stock Product From First Range', product_range: first_range, stock_level: 10),
-        create_product(name: 'Low Stock Product From First Range', product_range: first_range, stock_level: 5),
-        create_product(name: 'Product From Second Range', product_range: second_range, stock_level: 1)
+        FactoryGirl.create(:product, name: 'Another Product From Current Range', product_range: current_range, stock_level: 2),
+        FactoryGirl.create(:product, name: 'Low Stock Product From Current Range', product_range: current_range, stock_level: 1),
+        FactoryGirl.create(:product, name: 'High Stock Product From First Range', product_range: first_range, stock_level: 10),
+        FactoryGirl.create(:product, name: 'Low Stock Product From First Range', product_range: first_range, stock_level: 5),
+        FactoryGirl.create(:product, name: 'Product From Second Range', product_range: second_range, stock_level: 1)
       ]
-      product = create_product(name: 'Product', product_range: current_range)
+      product = FactoryGirl.create(:product, name: 'Product', product_range: current_range)
       expect(product.recommendations).to eq recommendations
     end
 
     it 'does not return out of stock products in recommendations' do
       current_range = ProductRange.new(name: 'Current Range')
-      out_of_stock_recommendation = create_product(name: 'Out Of Stock', product_range: current_range, stock_level: 0)
+      out_of_stock_recommendation = FactoryGirl.create(:product, name: 'Out Of Stock', product_range: current_range, stock_level: 0)
 
       product = Product.new(product_range: current_range)
       expect(product.recommendations).not_to include out_of_stock_recommendation
     end
 
     it 'returns a mix' do
-      r1 = create_product(name: 'Recommendation 1')
-      auto_1 = create_product(name: 'Automatic Recommendation 1')
-      r3 = create_product(name: 'Recommendation 3')
-      auto_2 = create_product(name: 'Automatic Recommendation 2')
-      r5 = create_product(name: 'Recommendation 5')
+      r1 = FactoryGirl.create(:product, name: 'Recommendation 1')
+      auto_1 = FactoryGirl.create(:product, name: 'Automatic Recommendation 1')
+      r3 = FactoryGirl.create(:product, name: 'Recommendation 3')
+      auto_2 = FactoryGirl.create(:product, name: 'Automatic Recommendation 2')
+      r5 = FactoryGirl.create(:product, name: 'Recommendation 5')
 
-      product = create_product(name: 'Example', recommendation_1: r1, recommendation_3: r3, recommendation_5: r5)
+      product = FactoryGirl.create(:product, name: 'Example', recommendation_1: r1, recommendation_3: r3, recommendation_5: r5)
       expect(product.recommendations).to eq [r1, auto_1, r3, auto_2, r5]
     end
 
     it 'does not suggest the current product' do
-      product = create_product(name: 'Another Speclace')
+      product = FactoryGirl.create(:product, name: 'Another Speclace')
       expect(product.recommendations).not_to include product
     end
 
     it 'does not return nil items' do
-      expect(create_product(name: 'Another Speclace').recommendations.select {|r| r.nil?}).to be_empty
+      expect(FactoryGirl.create(:product, name: 'Another Speclace').recommendations.select {|r| r.nil?}).to be_empty
     end
-  end
-
-  def create_product(attributes)
-    product_range = ProductRange.create!(name: 'Default Range')
-    image = Image.create!(image: File.new("#{Rails.root}/app/assets/images/logo.png"))
-    Product.create!({product_range: product_range, price_in_aud: 1, image_1: image, image_2: image, image_3: image, stock_level: 1}.merge(attributes))
   end
 end

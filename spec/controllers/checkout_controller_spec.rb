@@ -16,6 +16,12 @@ describe CheckoutController do
   end
 
   describe '#update' do
+    it 'sets a flash and redirects on invalid order' do
+      post :update, order: {delivery_address: {first_name: nil}}
+      expect(flash[:error]).to eq 'There were some problems with your order. Please fix them before continuing.'
+      expect(response).to redirect_to checkout_path
+    end
+
     it 'updates the session' do
       post :update, order: {delivery_address: {first_name: 'something else'}}
       expect(session[:order][:delivery_address][:first_name]).to eq 'something else'
@@ -24,6 +30,17 @@ describe CheckoutController do
     it 'redirects to the confirm page' do
       post :update
       expect(response).to redirect_to confirm_checkout_path
+    end
+
+    it 'supports back' do
+      post :update, back: 'Back'
+      expect(response).to redirect_to cart_path
+    end
+
+    it 'does not validate when going back' do
+      post :update, back: 'Back', order: {delivery_address: {first_name: nil}}
+      expect(flash[:error]).to be_nil
+      expect(response).to redirect_to cart_path
     end
   end
 
@@ -41,20 +58,20 @@ describe CheckoutController do
 
   describe '#confirmed' do
     before do
-      CheckoutService.stub(:save)
+      CheckoutService.stub(:save!)
       CheckoutService.stub(:create_payment_for)
       CheckoutService.stub(:redirect_url_for) { 'http://paypal.example.com/' }
     end
 
     it 'saves the order and a payment record' do
-      product = create_product(name: 'Example')
+      product = FactoryGirl.create(:product, name: 'Example')
       session[:cart] = {product.id => 1}
       post :confirmed
-      expect(CheckoutService).to have_received(:save).with(request.session_options[:id], session[:order], {product.id => 1})
+      expect(CheckoutService).to have_received(:save!).with(request.session_options[:id], session[:order], {product.id => 1})
     end
 
     it 'prepares a paypal payment' do
-      CheckoutService.stub(:save) { :order }
+      CheckoutService.stub(:save!) { :order }
       post :confirmed
       expect(CheckoutService).to have_received(:create_payment_for).with(:order, checkout_success_url, checkout_cancel_url)
     end
@@ -62,6 +79,26 @@ describe CheckoutController do
     it 'issues a redirect to paypal' do
       post :confirmed
       expect(response).to redirect_to 'http://paypal.example.com/'
+    end
+
+    it 'send the user back if there is a problem saving' do
+      CheckoutService.stub(:save!).and_raise 'woof'
+      Rails.stub_chain(:logger, :error)
+      post :confirmed
+      expect(flash[:error]).to eq "There was a problem saving your order: 'woof'. Please try again."
+      expect(Rails.logger).to have_received(:error)
+      expect(response).to redirect_to confirm_checkout_path
+    end
+
+    it 'supports back' do
+      post :confirmed, back: 'Back'
+      expect(response).to redirect_to checkout_path
+    end
+
+    it 'does not validate when going back' do
+      CheckoutService.stub(:save!).and_raise 'the roof'
+      post :confirmed, back: 'Back'
+      expect(response).to redirect_to checkout_path
     end
   end
 
@@ -117,6 +154,13 @@ describe CheckoutController do
     end
   end
 
+  describe '#subregion_options' do
+    it 'renders partial' do
+      get :subregion_options
+      expect(response).to render_template partial: '_subregion_select'
+    end
+  end
+
   def init_session
     session[:order] = {}
     session[:order][:delivery_address] = {}
@@ -169,11 +213,5 @@ describe CheckoutController do
       email: 'email',
       phone: 'phone'
     )
-  end
-
-  def create_product(attributes)
-    product_range = ProductRange.create!(name: 'Default Range')
-    image = Image.create!(image: File.new("#{Rails.root}/app/assets/images/logo.png"))
-    Product.create!({product_range: product_range, price_in_aud: 1, image_1: image, image_2: image, image_3: image}.merge(attributes))
   end
 end
