@@ -1,52 +1,53 @@
-.images
-  .thumbnails
-    - @product.images.each do |image|
-      = link_to image_tag(image.image(:small), alt: image.alt), 'javascript:void(0)'
+.product
+  .images
+    .thumbnails
+      - @product.images.each do |image|
+        = link_to image_tag(image.image(:small), alt: image.alt, width: 90, height: 90), 'javascript:void(0)'
 
-  #image
-    = raw delay_loaded_images(@product.images, :medium)
-    = spinner
-    #zoomindicator{style: 'display:none'}
+    #image
+      = raw delay_loaded_images(@product.images, :medium)
+      = spinner
+      #zoomindicator{style: 'display:none'}
 
-  #zoomwindow{style: 'display:none'}
-    = raw delay_loaded_images(@product.images, :large)
-    = spinner
+    #zoomwindow{style: 'display:none'}
+      = raw delay_loaded_images(@product.images, :large)
+      = spinner
 
-.details
-  %h2= @product.name
-  .blurb
-    = @product.blurb_html
-  %p.price= price_for(@product.price_in_aud, 'AUD')
-  = form_tag add_to_cart_path, method: :put do
-    = hidden_field_tag "cart[#{@product.id}]", 1
-    = submit_tag 'Add to Cart', class: 'button'
-  .social
-    = link_to image_tag('social/fbshare.png'), "https://www.facebook.com/sharer.php?u=#{request.url}", rel: 'nofollow', target: '_blank'
+  .details
+    %h2.name= @product.name
+    .blurb
+      = raw @product.blurb_html
+    %p.price= price_for(@product.price_in_aud, 'AUD')
+    = form_tag add_to_cart_path, method: :put, class: 'add-to-cart' do
+      = hidden_field_tag "cart[#{@product.id}]", 1
+      = submit_tag 'Add to Cart', class: 'button'
+    .social
+      = link_to image_tag('social/fbshare.png'), "https://www.facebook.com/sharer.php?u=#{request.url}", rel: 'nofollow', target: '_blank'
 
-#tabs{style: 'display:none'}
-  %ul
-    %li
-      %a{href: '#details'} Details
-    %li
-      %a{href: '#shipping'} Shipping
-    %li
-      %a{href: '#how-to-wear-it'} How to wear it!
-    %li
-      %a{href: '#security'} Security
-    %li
-      %a{href: '#gift-ideas'} Gift Ideas
-    %li
-      %a.trigger-autosize{href: '#ask-a-question'} Ask a Question
-  #details= @product.details_html
-  #shipping= render partial: 'pages/shipping'
-  #how-to-wear-it= @product.how_to_wear_it_html
-  #security= render partial: 'pages/security'
-  #gift-ideas= render partial: 'pages/gift_ideas'
-  #ask-a-question= render partial: 'pages/ask_a_question', locals: { product_id: @product.id }
+  #tabs{style: 'display:none'}
+    %ul
+      %li
+        %a{href: '#details'} Details
+      %li
+        %a{href: '#shipping'} Shipping
+      %li
+        %a{href: '#how-to-wear-it'} How to wear it!
+      %li
+        %a{href: '#security'} Security
+      %li
+        %a{href: '#gift-ideas'} Gift Ideas
+      %li
+        %a.trigger-autosize{href: '#ask-a-question'} Ask a Question
+    #details= @product.details_html
+    #shipping= render partial: 'pages/shipping'
+    #how-to-wear-it= @product.how_to_wear_it_html
+    #security= render partial: 'pages/security'
+    #gift-ideas= render partial: 'pages/gift_ideas'
+    #ask-a-question= render partial: 'pages/ask_a_question', locals: { product_id: @product.id }
 
-.recommendations
-  %h2 Other Speclaces you may like...
-  - @product.recommendations.each do |recommendation|
-    .recommendation
-      = link_to first_image_for(recommendation, :small), product_details_path(slug: recommendation.slug)
-      %span.name= link_to recommendation.name, product_details_path(slug: recommendation.slug)
+  .recommendations
+    %h2 Other Speclaces you may like...
+    - @product.recommendations.each do |recommendation|
+      .recommendation
+        = link_to first_image_for(recommendation, :small), product_details_path(slug: recommendation.slug)
+        %span.name= link_to recommendation.name, product_details_path(slug: recommendation.slug)

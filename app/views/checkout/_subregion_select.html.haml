@@ -1,0 +1,14 @@
+- address ||= params[:address]
+- raise 'address local required' unless address
+%span{id: "order_#{address}_state_wrapper", data: { address: address } }
+  - parent_region ||= params[:parent_region]
+  - country = Carmen::Country.coded(parent_region)
+
+  = fields_for :order do |f|
+    = f.fields_for address do |a|
+      - if country.nil?
+        %em Please select a country above
+      - elsif country.subregions?
+        = a.subregion_select :state, parent_region
+      - else
+        = a.text_field :state

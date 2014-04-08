@@ -1,94 +1,139 @@
-.images {
-  position: relative;
+.product {
+  margin: 0 15px;
 
-  .thumbnails {
-    float: left;
-    width: 100px;
-
-    img {
-      width: 90px;
-      height: 90px;
-    }
-  }
-
-  #image {
-    float: left;
+  .images {
     position: relative;
 
-    img {
-      width: 400px;
-      height: 400px;
+    .thumbnails {
+      float: left;
+      width: 90px;
+
+      img {
+        width: 81px;
+        height: 81px;
+        padding: 3px;
+        border: 1px solid #eee;
+      }
     }
 
-    #zoomindicator {
+    #image {
+      float: left;
+      position: relative;
+      margin: 0 4px;
+
+      img {
+        width: 400px;
+        height: 400px;
+      }
+
+      #zoomindicator {
+        position: absolute;
+        background-color: $zoom-indicator-color;
+        width: 172px; // width of #zoomwindow's visible portion: 400 * (300/700)
+        height: 143px; // height of #zoomwindow's visible portion: 400 * (250/700)
+        z-index: 0;
+      }
+    }
+
+    #zoomwindow {
       position: absolute;
-      background-color: $zoom-indicator-color;
-      width: 172px; // width of #zoomwindow's visible portion: 400 * (300/700)
-      height: 143px; // height of #zoomwindow's visible portion: 400 * (250/700)
-      z-index: 0;
+      left: 518px;
+      top: 0;
+      overflow: hidden;
+      width: 300px;
+      height: 250px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      z-index: 1;
+
+      img {
+        position: absolute;
+        width: 700px;
+        height: 700px;
+      }
     }
   }
 
-  #zoomwindow {
-    position: absolute;
-    left: 510px;
-    top: 0;
-    overflow: hidden;
-    width: 300px;
-    height: 250px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    z-index: 1;
-
-    img {
-      position: absolute;
-      width: 700px;
-      height: 700px;
-    }
-  }
-}
-
-.details {
-  float: left;
-  width: 450px;
-
-  .price {
-    color: #666;
-    font-size: 14px;
-    font-weight: bold;
-  }
-}
-
-#tabs {
-  clear: both;
-}
-
-.recommendations {
-  float: left;
-  padding: 10px;
-
-  .recommendation {
-    float: left;
-    margin: 18px 60px 18px 0;
-
-    img {
-      width: 100px;
-      height: 100px;
-    }
+  .details {
+    float: right;
+    width: 412px;
 
     .name {
-      display: block;
-      text-align: center;
+      margin: 16px 0 2px;
+      font-weight: inherit;
     }
 
-    a {
-      text-decoration: none;
-      color: $product-link-color;
+    .price {
+      font-size: 18px;
+      font-weight: bold;
     }
 
-    a:hover {
-      text-decoration: underline;
-      color: $product-link-hover-color;
+    .add-to-cart {
+      margin: 20px 0 34px 0;
+    }
+  }
+
+  #tabs {
+    padding: 0px;
+    border-width: 0px;
+    clear: both;
+    width: 660px;
+
+    .ui-tabs-nav {
+      padding-left: 0px;
+      background: transparent;
+      border-width: 0px 0px 1px 0px;
+      -moz-border-radius: 0px;
+      -webkit-border-radius: 0px;
+      border-radius: 0px;
+
+      li {
+        a {
+          padding: 0 10px;
+          font: bold 12px/19px Verdana;
+          color: $product-link-color;
+        }
+
+        &.ui-tabs-active a {
+          color: $button-background-color;
+        }
+      }
+    }
+
+    .ui-tabs-panel {
+      border-width: 0px 1px 1px 1px;
+    }
+
+    &.ui-widget * {
+      outline:none;
+    }
+  }
+
+  .recommendations {
+    float: left;
+    padding: 10px;
+
+    .recommendation {
+      float: left;
+      margin: 18px 60px 18px 0;
+
+      img {
+        width: 100px;
+        height: 100px;
+      }
+
+      .name {
+        display: block;
+        text-align: center;
+      }
+
+      a {
+        color: $product-link-color;
+      }
+
+      a:hover {
+        color: $product-link-hover-color;
+      }
     }
   }
 }

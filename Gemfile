@@ -18,11 +18,14 @@ gem 'simple_form'
 gem 'paperclip'
 gem 'aws-sdk'
 gem 'timecop'
+gem 'paypal-sdk-rest'
+gem 'carmen-rails'
 
 group :development, :test do
   gem 'sqlite3', '1.3.8'
   gem 'awesome_print'
   gem 'jasmine'
+  gem 'factory_girl_rails'
 end
 
 group :production do

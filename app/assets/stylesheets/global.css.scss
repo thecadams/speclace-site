@@ -1,3 +1,11 @@
+a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 .button {
   background-color: $button-background-color;
   color: white;
@@ -36,4 +44,12 @@
     right: 0;
     margin: auto;
   }
+}
+
+.txt-l {
+  float: left;
+}
+
+.txt-r {
+  float: right;
 }

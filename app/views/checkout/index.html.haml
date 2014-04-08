@@ -1,0 +1,27 @@
+.sidebars
+  = render partial: 'sidebar/customer_care'
+.content
+  %h1.title.txt-l Order Details
+  = image_tag 'progress-bar-2.jpg', class: 'txt-r'
+  = simple_form_for @order, url: update_checkout_path do |f|
+    %fieldset.form-section
+      %legend Delivery Address
+      .fieldset-wrapper
+        %p.fieldset-description Enter your delivery address and information here.
+        = render partial: 'address', locals: { f: f, address: :delivery_address, visible: true }
+    %fieldset.form-section
+      %legend Billing Address
+      .fieldset-wrapper
+        %p.fieldset-description Enter your delivery address and information here.
+        = f.check_box :same_addresses, checked: true
+        = f.label :same_addresses, 'My billing address is the same as my delivery address'
+        = render partial: 'address', locals: { f: f, address: :billing_address, visible: false }
+    %fieldset.form-section
+      %legend Order comments
+      .fieldset-wrapper
+        %p.fieldset-description Use this area for special instructions or questions regarding your order.
+        = f.text_area :comments, as: :text, label: 'Order comments', rows: 5
+    .actions
+      = submit_tag 'Back', name: 'back', class: 'button'
+      = submit_tag 'Confirm Order', name: 'confirm', class: 'button'
+

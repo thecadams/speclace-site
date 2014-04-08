@@ -1,8 +1,8 @@
 .cart
-  .count= pluralize @cart_item_count, 'Item'
+  .count= link_to(pluralize(@cart_item_count, 'Item'), cart_path)
   .total
     %label Total:
     = price_for @cart_total
   %ul
     %li= link_to 'View Cart', cart_path
-    %li= link_to 'Checkout Securely', checkout_cart_path
+    %li= link_to 'Checkout Securely', checkout_path

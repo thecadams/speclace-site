@@ -1,0 +1,17 @@
+= f.simple_fields_for address do |a|
+  %div{id: a.object_name.gsub(/\]\[|[^-a-zA-Z0-9:.]/, '_').sub(/_$/, ''), style: "display: #{visible ? 'block' : 'none'}" }
+    = a.input :first_name, label: 'First Name:'
+    = a.input :last_name, label: 'Last Name:'
+    = a.input :company, label: 'Company:', required: false
+    = a.input :street_address_1, label: 'Street address:'
+    = a.input :street_address_2, required: false, label: false
+    = a.input :city, label: 'City:'
+    = a.input :postcode, label: 'Postal Code:'
+    .input
+      = a.label :country, '<abbr title="required">*</abbr> Country:'.html_safe
+      = a.country_select :country, { priority: %w(AU US CA), prompt: 'Please select a country' }, class: 'required', 'aria-required' => true, required: 'required'
+    .input
+      = a.label :state, '<abbr title="required">*</abbr> State/Province:'.html_safe
+      = render partial: 'subregion_select', locals: {parent_region: @order.send(address).country, address: address}
+    = a.input :email, label: 'Email:'
+    = a.input :phone, label: 'Phone Number:', required: false

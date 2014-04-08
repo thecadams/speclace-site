@@ -24,7 +24,14 @@ Speclace::Application.routes.draw do
   post '/ask-a-question', as: :ask_a_question_request, to: 'ask_a_question_requests#create'
 
   get '/cart', as: :cart, to: 'cart#index'
-  get '/cart/checkout', as: :checkout_cart, to: 'cart#checkout'
   put '/cart', as: :update_cart, to: 'cart#update'
   put '/cart/add', as: :add_to_cart, to: 'cart#add'
+
+  get '/checkout', as: :checkout, to: 'checkout#index'
+  post '/checkout', as: :update_checkout, to: 'checkout#update'
+  get '/checkout/confirm', as: :confirm_checkout, to: 'checkout#confirm'
+  post '/checkout/confirm', as: :checkout_confirmed, to: 'checkout#confirmed'
+  get '/checkout/success', as: :checkout_success, to: 'checkout#success'
+  get '/checkout/cancel', as: :checkout_cancel, to: 'checkout#cancel'
+  get '/checkout/subregion_options', to: 'checkout#subregion_options'
 end
