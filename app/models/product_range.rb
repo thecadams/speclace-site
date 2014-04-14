@@ -3,6 +3,10 @@ class ProductRange < ActiveRecord::Base
   validate :name_titleized
   has_many :products
 
+  def slug
+    name.parameterize
+  end
+
   private
 
   def name_titleized

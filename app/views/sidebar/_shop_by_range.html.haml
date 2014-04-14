@@ -1,0 +1,6 @@
+- raise 'Ranges must be set' unless @product_ranges.is_a?(Array) && @product_ranges.all?{|r| r.is_a? ProductRange}
+.sidebar
+  %h2 Shop by range
+  %ul.ranges
+  - @product_ranges.each do |range|
+    %li= link_to range.name, ranges_path(name: range.slug)
