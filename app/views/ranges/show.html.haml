@@ -1,8 +1,0 @@
-.sidebars
-  = render partial: 'sidebar/shop_by_range'
-.content
-  %h1.title
-    #{@range.name}
-  .product-tiles
-    - @products.each do |product|
-      = render partial: 'products/product_tile', locals: {product: product}

@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Product do
   it { should belong_to :product_badge }
   it { should belong_to :product_range }
+  it { should have_and_belong_to_many :product_colours }
   it { should validate_presence_of :name }
   it { should validate_presence_of :price_in_aud }
   it { should validate_presence_of :priority }

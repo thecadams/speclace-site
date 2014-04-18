@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140326075502) do
+ActiveRecord::Schema.define(version: 20140418050528) do
 
   create_table "addresses", force: true do |t|
     t.string   "first_name",       null: false
@@ -115,6 +115,17 @@ ActiveRecord::Schema.define(version: 20140326075502) do
   end
 
   add_index "product_badges", ["product_badge_css_class_id"], name: "index_product_badges_on_product_badge_css_class_id"
+
+  create_table "product_colours", force: true do |t|
+    t.string "name", null: false
+  end
+
+  create_table "product_colours_products", force: true do |t|
+    t.integer  "product_id"
+    t.integer  "product_colour_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "product_ranges", force: true do |t|
     t.string "name", null: false

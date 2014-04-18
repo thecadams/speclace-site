@@ -14,6 +14,7 @@ class Product < ActiveRecord::Base
   belongs_to :recommendation_5, class_name: 'Product'
   belongs_to :product_badge
   belongs_to :product_range
+  has_and_belongs_to_many :product_colours
 
   def slug
     name.parameterize

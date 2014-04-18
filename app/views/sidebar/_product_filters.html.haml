@@ -1,0 +1,31 @@
+- raise 'Ranges must be set' unless @product_ranges.is_a?(Array) && @product_ranges.all?{|r| r.is_a? ProductRange}
+- raise 'Price filters must be set' unless @price_filters.is_a?(Array) && @price_filters.all?{|r| r.is_a? PriceFilter}
+- raise 'Colours must be set' unless @product_colours.is_a?(Array) && @product_colours.all?{|r| r.is_a? ProductColour}
+= form_tag request.path, method: :get do
+  .sidebar
+    %h2 Shop by range
+    %ul.ranges
+      %li
+        = radio_button_tag :range, nil, params[:range].nil?
+        = label_tag "range_", 'All ranges'
+      - @product_ranges.each do |range|
+        %li
+          = radio_button_tag :range, range.slug, params[:range] == range.slug
+          = label_tag "range_#{range.slug}", range.name
+  .sidebar
+    %h2 Shop by price
+    %ul.prices
+      - @price_filters.each do |filter|
+        - value = (filter.price_from || filter.price_to) ? "#{filter.price_from}_to_#{filter.price_to}" : nil
+        %li
+          = radio_button_tag :price, value, params[:price] == value
+          = label_tag value, filter.label
+  .sidebar
+    %h2 Shop by colour
+    %ul.colours
+      - @product_colours.each do |colour|
+        %li
+          = check_box_tag 'colour[]', colour.slug, params[:colour].include?(colour.slug)
+          = label_tag colour.slug, colour.name
+  .sidebar
+    = submit_tag 'Apply', class: 'button'

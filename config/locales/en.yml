@@ -32,3 +32,11 @@ en:
           attributes:
             name:
               not_titleized: 'All words must be capitalized due to URL conversion'
+        product_range:
+          attributes:
+            name:
+              not_titleized: 'All words must be capitalized due to URL conversion'
+        product_colour:
+          attributes:
+            name:
+              not_titleized: 'All words must be capitalized due to URL conversion'

@@ -4,7 +4,6 @@ Speclace::Application.routes.draw do
 
   get '/products', as: :products, to: 'products#index'
   get '/products/:slug', as: :product_details, to: 'products#show'
-  get '/ranges/:name', as: :ranges, to: 'ranges#show'
 
   get '/about-us', as: :about_us, to: 'pages#about_us'
   get '/copyright', as: :copyright, to: 'pages#copyright'
