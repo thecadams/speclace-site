@@ -7,12 +7,8 @@ class ProductsController < ApplicationController
 
     @range_name = params[:range].try(:titleize)
     @range = ProductRange.where(name: @range_name).first! if @range_name
-    @colours = params[:colour].map {|colour| ProductColour.where(name: colour.titleize).first!} if params[:colour]
-
-    @price_from, @price_to = params[:price].split('_to_').map(&:to_i) if params[:price]
-
-    raise "#{@price_from}_to_#{@price_to}"
-
+    @colours = params[:colours].map {|colour| ProductColour.where(name: colour.titleize).first!} if params[:colours]
+    @price_filter = @price_filters.select{|f| f.to_s == params[:price] }.first if params[:price]
     @products = filtered_products
   end
 
@@ -42,8 +38,8 @@ class ProductsController < ApplicationController
   def filtered_products
     where = []
     where << "product_range_id='#{@range.id}'" if @range
-    where << "price_in_aud > '#{@price_from}'" if @price_from
-    where << "price_in_aud < '#{@price_to}'" if @price_to
+    where << "price_in_aud > '#{@price_filter.price_from}'" if @price_filter.try(:price_from)
+    where << "price_in_aud < '#{@price_filter.price_to}'" if @price_filter.try(:price_to)
     where << "product_colours.id in (#{@colours.map(&:id).join(',')})" if @colours
 
     product_model = has_colours? ? Product.joins(:product_colours) : Product

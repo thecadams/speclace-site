@@ -6,4 +6,8 @@ class PriceFilter
     @price_to = price_to
     @label = label
   end
+
+  def to_s
+    "#{price_from}_to_#{price_to}"
+  end
 end

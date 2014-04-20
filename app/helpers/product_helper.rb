@@ -30,4 +30,17 @@ module ProductHelper
       end
     end
   end
+
+  def filter_description(range, price_filter, colours)
+    if colours.present?
+      colour_portion = colours.map(&:name).map(&:titleize).to_sentence
+    else
+      colour_portion = range.present? || price_filter.present? ? '' : 'All'
+    end
+
+    price_filter_portion = " #{price_filter.label.downcase}" if price_filter.present?
+    range_portion = range.present? ? " from the #{range.name.titleize}" : ''
+
+    "#{colour_portion}#{colour_portion.present? ? ' ' : ''}Speclaces#{price_filter_portion}#{range_portion}"
+  end
 end

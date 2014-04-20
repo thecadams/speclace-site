@@ -25,7 +25,7 @@
     %ul.colours
       - @product_colours.each do |colour|
         %li
-          = check_box_tag 'colour[]', colour.slug, params[:colour].include?(colour.slug)
+          = check_box_tag 'colours[]', colour.slug, params[:colours] && params[:colours].include?(colour.slug)
           = label_tag colour.slug, colour.name
   .sidebar
     = submit_tag 'Apply', class: 'button'

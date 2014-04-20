@@ -2,7 +2,7 @@
   = render partial: 'sidebar/product_filters'
 .content
   %h1.title
-    All Speclaces
+    = filter_description(@range, @price_filter, @colours)
   .product-tiles
     - @products.each do |product|
       = render partial: 'product_tile', locals: {product: product}

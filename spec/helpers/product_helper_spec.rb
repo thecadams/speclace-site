@@ -40,6 +40,71 @@ describe ProductHelper do
     end
   end
 
+  describe '#filter_description' do
+    let(:range) { nil }
+    let(:price_filter) { nil }
+    let(:colours) { nil }
+
+    subject(:title) { helper.filter_description(range, price_filter, colours) }
+
+    context 'when unfiltered' do
+      it 'has nice default' do
+        expect(subject).to eq 'All Speclaces'
+      end
+    end
+
+    context 'when no colours are selected' do
+      let(:colours) { [] }
+      it 'has nice default' do
+        expect(subject).to eq 'All Speclaces'
+      end
+    end
+
+    context 'when 1 colour is selected' do
+      let(:colours) { [ProductColour.new(name: 'blue')] }
+      it 'describes the colours' do
+        expect(subject).to eq 'Blue Speclaces'
+      end
+    end
+
+    context 'when 2 colours are selected' do
+      let(:colours) { [ProductColour.new(name: 'blue'), ProductColour.new(name: 'green')] }
+      it 'describes the colours' do
+        expect(subject).to eq 'Blue and Green Speclaces'
+      end
+    end
+
+    context 'when 3 colours are selected' do
+      let(:colours) { [ProductColour.new(name: 'blue'), ProductColour.new(name: 'green'), ProductColour.new(name: 'red')] }
+      it 'describes the colours' do
+        expect(subject).to eq 'Blue, Green, and Red Speclaces'
+      end
+    end
+
+    context 'when a range is selected' do
+      let(:range) { ProductRange.new(name: 'classic-range') }
+      it 'describes the range' do
+        expect(subject).to eq 'Speclaces from the Classic Range'
+      end
+    end
+
+    context 'when a price range is selected' do
+      let(:price_filter) { PriceFilter.new(nil,nil,'Less than $30') }
+      it 'describes the price filter' do
+        expect(subject).to eq 'Speclaces less than $30'
+      end
+    end
+
+    context 'when everything is selected' do
+      let(:range) { ProductRange.new(name: 'classic-range') }
+      let(:price_filter) { PriceFilter.new(30,50,'$30 to $50') }
+      let(:colours) { [ProductColour.new(name: 'blue'), ProductColour.new(name: 'green'), ProductColour.new(name: 'red')] }
+      it 'describes the price filter' do
+        expect(subject).to eq 'Blue, Green, and Red Speclaces $30 to $50 from the Classic Range'
+      end
+    end
+  end
+
   def image_url(style, name)
     "/system/images/images//#{style}/#{name}?#{Time.now.to_i}"
   end
