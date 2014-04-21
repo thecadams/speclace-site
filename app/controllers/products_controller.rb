@@ -48,7 +48,7 @@ class ProductsController < ApplicationController
         product_model.where(where.join(' and ')) :
         product_model.all
 
-    products_relation.order(:priority, created_at: :desc).all.to_a
+    products_relation.order(:priority, created_at: :desc).to_a
   end
 
   def has_colours?

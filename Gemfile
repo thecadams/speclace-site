@@ -26,6 +26,9 @@ group :development, :test do
   gem 'awesome_print'
   gem 'jasmine'
   gem 'factory_girl_rails'
+  gem 'capybara-webkit'
+  gem 'launchy'
+  gem 'database_cleaner'
 end
 
 group :production do

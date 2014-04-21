@@ -54,8 +54,8 @@ class CheckoutService
         items << {
           name: product.name,
           sku: product.slug,
-          price: product.price_in_aud,
-          currency_code: 'AUD',
+          price: '%.2f' % product.price_in_aud,
+          currency: 'AUD',
           quantity: quantity
         }
       end
@@ -73,7 +73,7 @@ class CheckoutService
           {
             item_list: { items: items },
             amount: {
-              total: total,
+              total: '%.2f' % total,
               currency: 'AUD'
             },
             description: 'Your Speclace order'
@@ -83,7 +83,7 @@ class CheckoutService
 
       Payment.create!(order: order, payment_id: paypal_payment.id, payment_object: paypal_payment.inspect)
 
-      raise paypal_payment.error unless paypal_payment.create
+      raise paypal_payment.error.inspect unless paypal_payment.create
       paypal_payment
     end
 

@@ -23,7 +23,7 @@
           Shipping: #{price_for @shipping}
           %br
           Total: #{price_for @total}
-  = form_tag do
+  = form_tag method: :post do
     .actions
       = submit_tag 'Back', name: 'back', class: 'button'
       = submit_tag 'Submit Order', name: 'submit', class: 'button'
