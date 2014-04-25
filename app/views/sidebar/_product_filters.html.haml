@@ -19,13 +19,13 @@
         - value = (filter.price_from || filter.price_to) ? "#{filter.price_from}_to_#{filter.price_to}" : nil
         %li
           = radio_button_tag :price, value, params[:price] == value
-          = label_tag value, filter.label
+          = label_tag "price_#{value}", filter.label
   .sidebar
     %h2 Shop by colour
     %ul.colours
       - @product_colours.each do |colour|
         %li
-          = check_box_tag 'colours[]', colour.slug, params[:colours] && params[:colours].include?(colour.slug)
-          = label_tag colour.slug, colour.name
+          = check_box_tag "colours[#{colour.slug}]", colour.slug, params[:colours] && params[:colours].include?(colour.slug)
+          = label_tag "colours_#{colour.slug}", colour.name
   .sidebar
     = submit_tag 'Apply', class: 'button'
