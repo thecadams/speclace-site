@@ -31,4 +31,15 @@ feature 'Visitor purchases a product' do
     expect(page).to have_content 'A Speclace'
     expect(page).to have_content '$1.00'
   end
+
+  scenario 'PayPal checkout shortcut', js: true do
+    visit '/products'
+    first(:button, 'Add to Cart').click
+    click_button 'paypal_checkout_button'
+
+    expect(current_url).to start_with 'https://www.sandbox.paypal.com/'
+
+    expect(page).to have_content 'A Speclace'
+    expect(page).to have_content '$1.00'
+  end
 end

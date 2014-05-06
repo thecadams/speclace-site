@@ -6,7 +6,7 @@ class CartController < ApplicationController
     params[:remove].each { |product_id, _| session[:cart].delete(product_id) } if params[:remove]
 
     if paypal_checkout_button_clicked?
-      @order = CheckoutService.save request.session_options[:id], session[:order], session[:cart]
+      @order = CheckoutService.order_from request.session_options[:id], session[:order], session[:cart]
       @paypal_payment = CheckoutService.create_payment_for @order, checkout_success_url, checkout_cancel_url
       redirect_to CheckoutService.redirect_url_for(@paypal_payment)
     else

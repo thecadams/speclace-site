@@ -133,7 +133,7 @@ class CheckoutService
     end
 
     def address_from(session_address)
-      session_address ||= {}
+      return nil unless session_address
       Address.new(
         first_name: session_address[:first_name],
         last_name: session_address[:last_name],
