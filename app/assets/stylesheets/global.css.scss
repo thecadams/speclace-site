@@ -1,8 +1,10 @@
 a {
   text-decoration: none;
+  color: $product-link-color;
 
   &:hover {
     text-decoration: underline;
+    color: $product-link-hover-color;
   }
 }
 

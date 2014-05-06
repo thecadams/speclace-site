@@ -1,11 +1,11 @@
 .sidebars
   = render partial: 'sidebar/customer_care'
 .content
-  %h1.title Shopping Cart
+  %h1.title.txt-l Shopping Cart
   - if @cart && @cart.present?
-    = image_tag 'progress-bar-1.jpg', class: 'txt-r'
+    = image_tag 'progress-bar-1.jpg', class: 'txt-r clear'
     = form_tag update_cart_path, method: :put do
-      %table
+      %table.cart-contents
         %thead
           %tr
             %th Item
@@ -18,24 +18,23 @@
           - @cart.each_with_index do |cart_item, index|
             - product, quantity = cart_item
             %tr{class: index.odd? ? 'odd' : 'even'}
-              %td= link_to first_image_for(product, :small), product_details_path(slug: product.slug)
-              %td= link_to product.name, product_details_path(slug: product.slug)
-              %td= submit_tag('Remove', name: "remove[#{product.id}]")
-              %td= text_field_tag("cart[#{product.id}]", quantity)
+              %td.thumb= link_to first_image_for(product, :thumb), product_details_path(slug: product.slug)
+              %td.description= link_to product.name, product_details_path(slug: product.slug)
+              %td.remove= submit_tag('Remove', name: "remove[#{product.id}]")
+              %td.quantity= text_field_tag("cart[#{product.id}]", quantity)
               %td= price_for product.price_in_aud
               %td= price_for product.price_in_aud * quantity
-          %tr.subtotal{colspan: 6}
-            %td
-              Subtotal: #{price_for @subtotal}
-              %br
-              Shipping: #{price_for @shipping}
-              %br
-              Total: #{price_for @total}
+          %tr.subtotal
+            %td{colspan: 6}
+              %span Subtotal: #{price_for @subtotal}
+              %span Shipping: #{price_for @shipping}
+              %span Total: #{price_for @total}
       .actions
         = link_to 'Continue Shopping', product_details_path(slug: @cart.first[0].slug)
         = submit_tag 'Update Cart', name: 'update', class: 'button'
         = submit_tag 'Checkout Securely', name: 'checkout', class: 'button'
-        .or - or -
-        = image_submit_tag 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckoutsm.gif', name: 'paypal', title: 'Checkout with PayPal.', alt: 'Checkout with PayPal.'
+      .paypal
+        %span - or -
+        = image_submit_tag 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckoutsm.gif', id: 'paypal_checkout_button', name: 'paypal', title: 'Checkout with PayPal.', alt: 'Checkout with PayPal.', value: 'paypal'
   - else
     %p There are no products in your shopping cart.

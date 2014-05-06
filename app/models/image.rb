@@ -1,6 +1,7 @@
 class Image < ActiveRecord::Base
   acts_as_paranoid
   has_attached_file :image, styles: {
+    thumb: '80x80>',
     small: '100x100>',
     medium: '400x400>',
     large: '700x700>'
