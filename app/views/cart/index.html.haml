@@ -3,17 +3,20 @@
 .content
   %h1.title.txt-l Shopping Cart
   - if @cart && @cart.present?
-    = image_tag 'progress-bar-1.jpg', class: 'txt-r clear'
+    = image_tag 'confirm-order-offpage.png', class: 'txt-r clear'
+    = image_tag 'order-details-offpage.png', class: 'txt-r clear'
+    = image_tag 'view-cart-onpage.png', class: 'txt-r clear'
     = form_tag update_cart_path, method: :put do
       %table.cart-contents
         %thead
           %tr
             %th Item
-            %th Product Name
+            %th.product_name Product Name
             %th Remove
             %th Quantity
             %th Unit Price
             %th Total
+
         %tbody
           - @cart.each_with_index do |cart_item, index|
             - product, quantity = cart_item
