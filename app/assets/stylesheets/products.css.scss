@@ -60,7 +60,10 @@
 
     .name {
       margin: 16px 0 2px;
-      font-weight: inherit;
+    }
+
+    .blurb {
+      margin-bottom: 40px;
     }
 
     .price {
@@ -74,10 +77,10 @@
   }
 
   #tabs {
-    padding: 0px;
+    padding: 20px 0 0 0;
     border-width: 0px;
     clear: both;
-    width: 660px;
+    width: 656px;
 
     .ui-tabs-nav {
       padding-left: 0px;
@@ -90,7 +93,6 @@
       li {
         a {
           padding: 0 10px;
-          font: bold 12px/19px Verdana;
           color: $product-link-color;
         }
 
@@ -102,16 +104,25 @@
 
     .ui-tabs-panel {
       border-width: 0px 1px 1px 1px;
+      font-size: 90%;
     }
 
     &.ui-widget * {
       outline:none;
+    }
+
+    td {
+      background-color: #eee;
     }
   }
 
   .recommendations {
     float: left;
     padding: 10px;
+
+    h2 {
+      padding-top: 20px;
+    }
 
     .recommendation {
       float: left;
