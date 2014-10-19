@@ -12,6 +12,6 @@
       = a.country_select :country, { priority: %w(AU US CA), prompt: 'Please select a country' }, class: 'required', 'aria-required' => true, required: 'required'
     .input
       = a.label :state, '<abbr title="required">*</abbr> State/Province:'.html_safe
-      = render partial: 'subregion_select', locals: {parent_region: @order.send(address).country, address: address}
+      = render partial: 'subregion_select', locals: {parent_region: @order.send(address).try(:country), address: address}
     = a.input :email, label: 'Email:'
     = a.input :phone, label: 'Phone Number:', required: false
