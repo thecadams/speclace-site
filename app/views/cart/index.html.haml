@@ -3,9 +3,10 @@
 .content
   %h1.title.txt-l Shopping Cart
   - if @cart && @cart.present?
-    = image_tag 'confirm-order-offpage.png', class: 'txt-r clear'
-    = image_tag 'order-details-offpage.png', class: 'txt-r clear'
-    = image_tag 'view-cart-onpage.png', class: 'txt-r clear'
+    .checkout-steps.txt-r
+      = image_tag 'view-cart-onpage.png'
+      = image_tag 'order-details-offpage.png'
+      = image_tag 'confirm-order-offpage.png'
     = form_tag update_cart_path, method: :put do
       %table.cart-contents
         %thead
