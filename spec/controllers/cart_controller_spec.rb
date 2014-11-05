@@ -8,6 +8,18 @@ describe CartController do
       expect(session[:cart]).to eq({product.id => 2})
     end
 
+    it 'deletes if quantity is zero' do
+      put :update, cart: {product.id => 1}
+      put :update, cart: {product.id => 0}
+      expect(session[:cart]).to eq({})
+    end
+
+    it 'deletes if quantity is negative' do
+      put :update, cart: {product.id => 1}
+      put :update, cart: {product.id => -1}
+      expect(session[:cart]).to eq({})
+    end
+
     it 'does not modify existing cart items' do
       product_2 = FactoryGirl.create(:product)
       session[:cart] = {product_2.id => 1}

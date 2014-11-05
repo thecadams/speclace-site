@@ -2,7 +2,13 @@ class CartController < ApplicationController
   before_filter :initialize_cart
 
   def update
-    cart_stock_counts.each { |k, v| session[:cart][k] = v }
+    cart_stock_counts.each do |k, v|
+      if v > 0
+        session[:cart][k] = v
+      else
+        session[:cart].delete(k) if session[:cart][k]
+      end
+    end
     params[:remove].each { |product_id, _| session[:cart].delete(product_id) } if params[:remove]
 
     if paypal_checkout_button_clicked?
