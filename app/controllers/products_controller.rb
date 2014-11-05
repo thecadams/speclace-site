@@ -7,7 +7,7 @@ class ProductsController < ApplicationController
 
     @range_name = params[:range].try(:titleize)
     @range = ProductRange.where(name: @range_name).first! if @range_name
-    @colours = params[:colours].map {|colour| ProductColour.where(name: colour.titleize).first!} if params[:colours]
+    @colours = params[:colours].map {|colour| ProductColour.where(name: colour.first.titleize).first!} if params[:colours]
     @price_filter = @price_filters.select{|f| f.to_s == params[:price] }.first if params[:price]
     @products = filtered_products
   end

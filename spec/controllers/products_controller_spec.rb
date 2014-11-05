@@ -40,7 +40,7 @@ describe ProductsController do
 
       expect(Product.count).to eq 2
 
-      get :index, colours: [included_colour.slug]
+      get :index, colours: [[included_colour.slug, included_colour.slug]]
       expect(assigns(:products)).to eq [included_product]
     end
 
